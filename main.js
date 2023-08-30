@@ -386,6 +386,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
+  stage.on("touchstart", (e) => {
+    let touches = e.evt.touches;
+
+    if (touches.length === 2) {
+      initialDistance = getDistance(touches[0], touches[1]);
+      initialScale = stage.scaleX();
+    }
+  });
+
+  stage.on("touchmove", (e) => {
+    let touches = e.evt.touches;
+
+    if (touches.length === 2) {
+      let currentDistance = getDistance(touches[0], touches[1]);
+      let scaleFactor = currentDistance / initialDistance;
+      let newScale = initialScale * scaleFactor;
+
+      if (newScale >= minScale && newScale <= maxScale) {
+        stage.scale({ x: newScale, y: newScale });
+        stage.batchDraw();
+      }
+    }
+  });
+  function getDistance(point1, point2) {
+    let dx = point2.clientX - point1.clientX;
+    let dy = point2.clientY - point1.clientY;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
   //PANNING
   stage.on("mousedown touchstart", (e) => {
     isDragging = true;
