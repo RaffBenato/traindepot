@@ -10,7 +10,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const unlockButton = document.getElementById("unlock");
 
   //Zooming variables
-  const initialScale = 0.06894334949441323;
+  const initialScale = 0.07;
   const minScale = 0.06894334949441323;
   const maxScale = 1.2;
   // Panning variables
@@ -27,10 +27,12 @@ document.addEventListener("DOMContentLoaded", function () {
     container: "konva-holder",
   });
 
+  //LAYERS
   const layer = new Konva.Layer();
   const tracksLayer = new Konva.Layer();
   const outOfTrackLayer = new Konva.Layer();
-  stage.add(outOfTrackLayer, tracksLayer, layer);
+  const roadNumbers = new Konva.Layer();
+  stage.add(outOfTrackLayer, tracksLayer, roadNumbers, layer);
 
   const outOfTrackRectangle = new Konva.Rect({
     x: 500,
@@ -1630,6 +1632,597 @@ document.addEventListener("DOMContentLoaded", function () {
     pointsRoad352
   );
   tracksLayer.batchDraw();
+
+  const RoadNumberH = new Konva.Text({
+    x: 4620,
+    y: 2145,
+    text: `H Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberG = new Konva.Text({
+    x: 4620,
+    y: 2310,
+    text: `G Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberF = new Konva.Text({
+    x: 4620,
+    y: 2475,
+    text: `F Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberE = new Konva.Text({
+    x: 4620,
+    y: 2640,
+    text: `E Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberD = new Konva.Text({
+    x: 5560,
+    y: 2805,
+    text: `D Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberC = new Konva.Text({
+    x: 4620,
+    y: 2970,
+    text: `C Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberB2 = new Konva.Text({
+    x: 4620,
+    y: 3135,
+    text: `B2 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberB1 = new Konva.Text({
+    x: 4620,
+    y: 3300,
+    text: `B1 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberB = new Konva.Text({
+    x: 4620,
+    y: 3465,
+    text: `B Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberA = new Konva.Text({
+    x: 4620,
+    y: 3630,
+    text: `A Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber58 = new Konva.Text({
+    x: 4890,
+    y: 4455,
+    text: `58 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber58A = new Konva.Text({
+    x: 4890,
+    y: 4620,
+    text: `58A Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber58B = new Konva.Text({
+    x: 4890,
+    y: 4785,
+    text: `58B Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber58C = new Konva.Text({
+    x: 4890,
+    y: 4950,
+    text: `58C Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber59 = new Konva.Text({
+    x: 4890,
+    y: 5115,
+    text: `59 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber59A = new Konva.Text({
+    x: 4890,
+    y: 5280,
+    text: `59A Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberMetSidings = new Konva.Text({
+    x: 200,
+    y: 5445,
+    text: `Met Siding`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberReception = new Konva.Text({
+    x: 3600,
+    y: 5445,
+    text: `RECEPTION Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberReception2 = new Konva.Text({
+    x: 14400,
+    y: 5445,
+    text: `RECEPTION Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberJuiceSidings = new Konva.Text({
+    x: 4150,
+    y: 5610,
+    text: `Juice Siding`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberNearside = new Konva.Text({
+    x: 7950,
+    y: 5610,
+    text: `NEARSIDE`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberNearside2 = new Konva.Text({
+    x: 14570,
+    y: 5610,
+    text: `NEARSIDE`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberFarside = new Konva.Text({
+    x: 8350,
+    y: 5775,
+    text: `FARSIDE`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberFarside2 = new Konva.Text({
+    x: 14520,
+    y: 5775,
+    text: `FARSIDE`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber63 = new Konva.Text({
+    x: 8720,
+    y: 5940,
+    text: `63 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber59Welding = new Konva.Text({
+    x: 11090,
+    y: 5115,
+    text: `59 Welding`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber57Welding = new Konva.Text({
+    x: 11090,
+    y: 4785,
+    text: `57 Welding`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber55 = new Konva.Text({
+    x: 9590,
+    y: 4455,
+    text: `55 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber54 = new Konva.Text({
+    x: 8890,
+    y: 4290,
+    text: `54 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber70Spur = new Konva.Text({
+    x: 15740,
+    y: 4125,
+    text: `70 Spur`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber69 = new Konva.Text({
+    x: 13710,
+    y: 3960,
+    text: `69 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber68 = new Konva.Text({
+    x: 13710,
+    y: 3795,
+    text: `68 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber67 = new Konva.Text({
+    x: 13710,
+    y: 3630,
+    text: `67 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber66 = new Konva.Text({
+    x: 13710,
+    y: 3465,
+    text: `66 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber65 = new Konva.Text({
+    x: 13710,
+    y: 3300,
+    text: `65 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber64 = new Konva.Text({
+    x: 13710,
+    y: 3135,
+    text: `64 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber75 = new Konva.Text({
+    x: 14910,
+    y: 2970,
+    text: `75 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber74 = new Konva.Text({
+    x: 14910,
+    y: 2805,
+    text: `74 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber73 = new Konva.Text({
+    x: 14910,
+    y: 2640,
+    text: `73 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber72 = new Konva.Text({
+    x: 14910,
+    y: 2475,
+    text: `72 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber53 = new Konva.Text({
+    x: 11050,
+    y: 3960,
+    text: `53 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber52 = new Konva.Text({
+    x: 9850,
+    y: 3795,
+    text: `52 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber51 = new Konva.Text({
+    x: 9850,
+    y: 3630,
+    text: `51 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber50 = new Konva.Text({
+    x: 9850,
+    y: 3465,
+    text: `50 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber49 = new Konva.Text({
+    x: 9850,
+    y: 3300,
+    text: `49 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber48 = new Konva.Text({
+    x: 9850,
+    y: 3135,
+    text: `48 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber47 = new Konva.Text({
+    x: 9850,
+    y: 2970,
+    text: `47 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber46 = new Konva.Text({
+    x: 9850,
+    y: 2805,
+    text: `46 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber45 = new Konva.Text({
+    x: 9850,
+    y: 2640,
+    text: `45 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber44 = new Konva.Text({
+    x: 9850,
+    y: 2475,
+    text: `44 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber43 = new Konva.Text({
+    x: 9850,
+    y: 2310,
+    text: `43 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber42 = new Konva.Text({
+    x: 9850,
+    y: 2145,
+    text: `42 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber41 = new Konva.Text({
+    x: 9850,
+    y: 1980,
+    text: `41 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber40 = new Konva.Text({
+    x: 9850,
+    y: 1815,
+    text: `40 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber39 = new Konva.Text({
+    x: 9850,
+    y: 1650,
+    text: `39 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber38 = new Konva.Text({
+    x: 9850,
+    y: 1485,
+    text: `38 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber37 = new Konva.Text({
+    x: 9850,
+    y: 1320,
+    text: `37 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber36 = new Konva.Text({
+    x: 9850,
+    y: 1155,
+    text: `36 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber35 = new Konva.Text({
+    x: 9850,
+    y: 990,
+    text: `35 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber34 = new Konva.Text({
+    x: 9850,
+    y: 825,
+    text: `34 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber33 = new Konva.Text({
+    x: 9850,
+    y: 660,
+    text: `33 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber32 = new Konva.Text({
+    x: 9850,
+    y: 495,
+    text: `32 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumber31 = new Konva.Text({
+    x: 9850,
+    y: 330,
+    text: `31 Road`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberMet = new Konva.Text({
+    x: 3350,
+    y: 4745,
+    rotation: -90,
+    text: `METROPOLITAN LINE`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+  const RoadNumberCentral = new Konva.Text({
+    x: 2250,
+    y: 165,
+    text: `CENTRAL LINE`,
+    fontSize: 90,
+    fontFamily: "Arial",
+    fill: "black",
+  });
+
+  roadNumbers.add(
+    RoadNumberH,
+    RoadNumberG,
+    RoadNumberF,
+    RoadNumberE,
+    RoadNumberD,
+    RoadNumberC,
+    RoadNumberB2,
+    RoadNumberB1,
+    RoadNumberB,
+    RoadNumberA,
+    RoadNumber58,
+    RoadNumber58A,
+    RoadNumber58B,
+    RoadNumber58C,
+    RoadNumber59,
+    RoadNumber59A,
+    RoadNumberMetSidings,
+    RoadNumberReception,
+    RoadNumberReception2,
+    RoadNumberJuiceSidings,
+    RoadNumberNearside,
+    RoadNumberNearside2,
+    RoadNumberFarside,
+    RoadNumberFarside2,
+    RoadNumber63,
+    RoadNumber59Welding,
+    RoadNumber57Welding,
+    RoadNumber55,
+    RoadNumber54,
+    RoadNumber70Spur,
+    RoadNumber69,
+    RoadNumber68,
+    RoadNumber67,
+    RoadNumber66,
+    RoadNumber65,
+    RoadNumber64,
+    RoadNumber75,
+    RoadNumber74,
+    RoadNumber73,
+    RoadNumber72,
+    RoadNumber53,
+    RoadNumber52,
+    RoadNumber51,
+    RoadNumber50,
+    RoadNumber49,
+    RoadNumber48,
+    RoadNumber47,
+    RoadNumber46,
+    RoadNumber45,
+    RoadNumber44,
+    RoadNumber43,
+    RoadNumber42,
+    RoadNumber41,
+    RoadNumber40,
+    RoadNumber39,
+    RoadNumber38,
+    RoadNumber37,
+    RoadNumber36,
+    RoadNumber35,
+    RoadNumber34,
+    RoadNumber33,
+    RoadNumber32,
+    RoadNumber31,
+    RoadNumberMet,
+    RoadNumberCentral
+  );
+  roadNumbers.batchDraw();
 
   //CREATE LOCOS
   function createLocomotive(locoNumber, positionX, positionY, locoName) {
