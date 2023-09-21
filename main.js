@@ -10,14 +10,14 @@ document.addEventListener("DOMContentLoaded", function () {
   const unlockButton = document.getElementById("unlock");
 
   //Zooming variables
-  const initialScale = 0.15;
+  const initialScale = 0.06894334949441323;
   const minScale = 0.06894334949441323;
   const maxScale = 1.2;
   // Panning variables
   let isDragging = false;
   let lastPosition = { x: 0, y: 0 };
   //Wagons Numbers
-  const numberOfLocos = 5;
+  const numberOfLocos = 10;
   //Roads
   const roadColour = "rgb(180,180,180)";
 
@@ -29,7 +29,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   const layer = new Konva.Layer();
   const tracksLayer = new Konva.Layer();
-  stage.add(tracksLayer, layer);
+  const outOfTrackLayer = new Konva.Layer();
+  stage.add(outOfTrackLayer, tracksLayer, layer);
+
+  const outOfTrackRectangle = new Konva.Rect({
+    x: 500,
+    y: 7250,
+    fill: "rgba(0,0,180,0.5)",
+    height: 2050,
+    width: 20500,
+    stroke: "darkblue",
+    strokeWidth: 25,
+    cornerRadius: 50,
+    name: "OutOfTrack",
+  });
+  outOfTrackLayer.add(outOfTrackRectangle);
+  tracksLayer.batchDraw();
 
   //ROADS
   const roadEastBound = new Konva.Rect({
@@ -37,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 85,
     fill: roadColour,
     height: 50,
-    width: 20000,
+    width: 23500,
     name: "EastBound",
   });
   const stopEastboundWest = new Konva.Rect({
@@ -48,7 +63,7 @@ document.addEventListener("DOMContentLoaded", function () {
     width: 10,
   });
   const stopEastboundEast = new Konva.Rect({
-    x: 20100,
+    x: 23600,
     y: 75,
     fill: "red",
     height: 72,
@@ -59,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 250,
     fill: roadColour,
     height: 50,
-    width: 20000,
+    width: 23500,
     name: "WestBound",
   });
   const stopWestboundWest = new Konva.Rect({
@@ -70,7 +85,7 @@ document.addEventListener("DOMContentLoaded", function () {
     width: 10,
   });
   const stopWestboundEast = new Konva.Rect({
-    x: 20100,
+    x: 23600,
     y: 240,
     fill: "red",
     height: 72,
@@ -94,14 +109,14 @@ document.addEventListener("DOMContentLoaded", function () {
     align: "center",
   });
   const ruislipGardens = new Konva.Rect({
-    x: 18830,
+    x: 22130,
     y: 135,
     fill: "black",
     height: 114,
     width: 1270,
   });
   const ruislipGardensText = new Konva.Text({
-    x: 18830,
+    x: 22230,
     y: 155,
     text: `RUISLIP GARDENS`,
     fontSize: 90,
@@ -257,7 +272,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 415,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 6836,
     name: "31Road",
   });
   const road32 = new Konva.Rect({
@@ -265,7 +280,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 580,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 12298,
     name: "32Road",
   });
   const road33 = new Konva.Rect({
@@ -273,7 +288,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 745,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 7150,
     name: "33Road",
   });
   const road34 = new Konva.Rect({
@@ -281,7 +296,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 910,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 8100,
     name: "34Road",
   });
   const pointsRoad31 = new Konva.Rect({
@@ -362,7 +377,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 1075,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 13600,
     name: "35Road",
   });
   const road36 = new Konva.Rect({
@@ -370,7 +385,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 1240,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 7600,
     name: "36Road",
   });
   const road37 = new Konva.Rect({
@@ -378,7 +393,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 1405,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 6800,
     name: "37Road",
   });
   const pointsRoad37 = new Konva.Rect({
@@ -402,7 +417,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 1570,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 4373,
     name: "38Road",
   });
   const road39 = new Konva.Rect({
@@ -410,15 +425,22 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 1735,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 3700,
     name: "39Road",
+  });
+  const stopRoad39East = new Konva.Rect({
+    x: 12500,
+    y: 1725,
+    fill: "red",
+    height: 72,
+    width: 10,
   });
   const road40 = new Konva.Rect({
     x: 8530,
     y: 1900,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 3650,
     name: "40Road",
   });
   const road41 = new Konva.Rect({
@@ -426,7 +448,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 2065,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 7447,
     name: "41Road",
   });
   const road42 = new Konva.Rect({
@@ -434,7 +456,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 2230,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 3180,
     name: "42Road",
   });
   const road43 = new Konva.Rect({
@@ -442,7 +464,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 2395,
     fill: roadColour,
     height: 50,
-    width: 7100,
+    width: 4770,
     name: "43Road",
   });
   const pointsRoad38 = new Konva.Rect({
@@ -460,6 +482,971 @@ document.addEventListener("DOMContentLoaded", function () {
     fill: roadColour,
     height: 50,
     width: 341,
+  });
+  const pointsRoad274 = new Konva.Rect({
+    x: 7670,
+    y: 1090,
+    rotation: 56,
+    fill: roadColour,
+    height: 50,
+    width: 3390,
+  });
+  const road44 = new Konva.Rect({
+    x: 8650,
+    y: 2560,
+    fill: roadColour,
+    height: 50,
+    width: 9060,
+    name: "44Road",
+  });
+  const road45 = new Konva.Rect({
+    x: 9540,
+    y: 2725,
+    fill: roadColour,
+    height: 50,
+    width: 3180,
+    name: "45Road",
+  });
+  const stopRoad45East = new Konva.Rect({
+    x: 12710,
+    y: 2715,
+    fill: "red",
+    height: 72,
+    width: 10,
+  });
+  const road46 = new Konva.Rect({
+    x: 9450,
+    y: 2890,
+    fill: roadColour,
+    height: 50,
+    width: 3180,
+    name: "46Road",
+  });
+  const road47 = new Konva.Rect({
+    x: 9540,
+    y: 3055,
+    fill: roadColour,
+    height: 50,
+    width: 3920,
+    name: "47Road",
+  });
+  const road48 = new Konva.Rect({
+    x: 9375,
+    y: 3220,
+    fill: roadColour,
+    height: 50,
+    width: 3463,
+    name: "48Road",
+  });
+  const road49 = new Konva.Rect({
+    x: 9490,
+    y: 3385,
+    fill: roadColour,
+    height: 50,
+    width: 3480,
+    name: "49Road",
+  });
+  const road50 = new Konva.Rect({
+    x: 9300,
+    y: 3550,
+    fill: roadColour,
+    height: 50,
+    width: 3540,
+    name: "50Road",
+  });
+  const road51 = new Konva.Rect({
+    x: 9780,
+    y: 3715,
+    fill: roadColour,
+    height: 50,
+    width: 3130,
+    name: "51Road",
+  });
+  const road52 = new Konva.Rect({
+    x: 9525,
+    y: 3880,
+    fill: roadColour,
+    height: 50,
+    width: 3250,
+    name: "52Road",
+  });
+  const pointsRoad50 = new Konva.Rect({
+    x: 9780,
+    y: 3764,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const pointsRoad275 = new Konva.Rect({
+    x: 9490,
+    y: 3434,
+    rotation: -125,
+    fill: roadColour,
+    height: 50,
+    width: 1020,
+  });
+  const pointsRoad276 = new Konva.Rect({
+    x: 9540,
+    y: 3104,
+    rotation: -125,
+    fill: roadColour,
+    height: 50,
+    width: 610,
+  });
+  const pointsRoad277 = new Konva.Rect({
+    x: 9540,
+    y: 2774,
+    rotation: -125,
+    fill: roadColour,
+    height: 50,
+    width: 200,
+  });
+  const road53 = new Konva.Rect({
+    x: 11005,
+    y: 4045,
+    fill: roadColour,
+    height: 50,
+    width: 1632,
+    name: "53Road",
+  });
+  const roadBank = new Konva.Rect({
+    x: 7400,
+    y: 2230,
+    rotation: 56,
+    fill: roadColour,
+    height: 50,
+    width: 2612,
+    name: "BankRoad",
+  });
+  const road54 = new Konva.Rect({
+    x: 8820,
+    y: 4375,
+    fill: roadColour,
+    height: 50,
+    width: 7370,
+    name: "54Road",
+  });
+  const roadA = new Konva.Rect({
+    x: 4580,
+    y: 3715,
+    fill: roadColour,
+    height: 50,
+    width: 3800,
+    name: "ARoad",
+  });
+  const stopRoadAWest = new Konva.Rect({
+    x: 4580,
+    y: 3705,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadB = new Konva.Rect({
+    x: 4580,
+    y: 3550,
+    fill: roadColour,
+    height: 50,
+    width: 3100,
+    name: "BRoad",
+  });
+  const stopRoadBWest = new Konva.Rect({
+    x: 4580,
+    y: 3540,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoadA = new Konva.Rect({
+    x: 7950,
+    y: 3764,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const roadB1 = new Konva.Rect({
+    x: 4580,
+    y: 3385,
+    fill: roadColour,
+    height: 50,
+    width: 2100,
+    name: "B1Road",
+  });
+  const stopRoadB1West = new Konva.Rect({
+    x: 4580,
+    y: 3375,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadB2 = new Konva.Rect({
+    x: 4580,
+    y: 3220,
+    fill: roadColour,
+    height: 50,
+    width: 2600,
+    name: "B2Road",
+  });
+  const stopRoadB2West = new Konva.Rect({
+    x: 4580,
+    y: 3210,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadC = new Konva.Rect({
+    x: 4580,
+    y: 3055,
+    fill: roadColour,
+    height: 50,
+    width: 3350,
+    name: "CRoad",
+  });
+  const stopRoadCWest = new Konva.Rect({
+    x: 4580,
+    y: 3045,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoadB1 = new Konva.Rect({
+    x: 6975,
+    y: 3265,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const pointsRoadB2 = new Konva.Rect({
+    x: 7475,
+    y: 3100,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const roadD = new Konva.Rect({
+    x: 5520,
+    y: 2890,
+    fill: roadColour,
+    height: 50,
+    width: 2300,
+    name: "DRoad",
+  });
+  const stopRoadDWest = new Konva.Rect({
+    x: 5520,
+    y: 2880,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoadBank = new Konva.Rect({
+    x: 8499,
+    y: 2400,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 841,
+  });
+  const roadE = new Konva.Rect({
+    x: 4580,
+    y: 2725,
+    fill: roadColour,
+    height: 50,
+    width: 2500,
+    name: "ERoad",
+  });
+  const stopRoadEWest = new Konva.Rect({
+    x: 4580,
+    y: 2715,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadF = new Konva.Rect({
+    x: 4580,
+    y: 2560,
+    fill: roadColour,
+    height: 50,
+    width: 3040,
+    name: "FRoad",
+  });
+  const stopRoadFWest = new Konva.Rect({
+    x: 4580,
+    y: 2550,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoadE = new Konva.Rect({
+    x: 7375,
+    y: 2605,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const roadG = new Konva.Rect({
+    x: 4580,
+    y: 2395,
+    fill: roadColour,
+    height: 50,
+    width: 2340,
+    name: "GRoad",
+  });
+  const stopRoadGWest = new Konva.Rect({
+    x: 4580,
+    y: 2385,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadH = new Konva.Rect({
+    x: 4580,
+    y: 2230,
+    fill: roadColour,
+    height: 50,
+    width: 2819,
+    name: "HRoad",
+  });
+  const stopRoadHWest = new Konva.Rect({
+    x: 4580,
+    y: 2220,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoadG = new Konva.Rect({
+    x: 7215,
+    y: 2275,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const pointsRoad311 = new Konva.Rect({
+    x: 16102,
+    y: 626,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 336,
+  });
+  const pointsEastbound = new Konva.Rect({
+    x: 20590,
+    y: 132,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 997,
+  });
+  const pointsRoad34 = new Konva.Rect({
+    x: 15877,
+    y: 627,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 666,
+  });
+  const pointsRoad372 = new Konva.Rect({
+    x: 15877,
+    y: 1122,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 666,
+  });
+  const pointsRoad302 = new Konva.Rect({
+    x: 17677,
+    y: 627,
+    rotation: 130,
+    fill: roadColour,
+    height: 50,
+    width: 1943,
+  });
+  const pointsRoad8 = new Konva.Rect({
+    x: 12947,
+    y: 1452,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 338,
+  });
+  const pointsRoad402 = new Konva.Rect({
+    x: 12450,
+    y: 2114,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const pointsRoad373 = new Konva.Rect({
+    x: 13650,
+    y: 2114,
+    rotation: -130,
+    fill: roadColour,
+    height: 50,
+    width: 881,
+  });
+  const pointsRoad42 = new Konva.Rect({
+    x: 12200,
+    y: 2444,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 343,
+  });
+  const pointsRoad43 = new Konva.Rect({
+    x: 13900,
+    y: 2114,
+    rotation: 130,
+    fill: roadColour,
+    height: 50,
+    width: 433,
+  });
+  const pointsRoad431 = new Konva.Rect({
+    x: 14700,
+    y: 2114,
+    rotation: 130,
+    fill: roadColour,
+    height: 50,
+    width: 640,
+  });
+  const pointsRoad432 = new Konva.Rect({
+    x: 15900,
+    y: 2594,
+    rotation: -130,
+    fill: roadColour,
+    height: 50,
+    width: 640,
+  });
+  const pointsRoad46 = new Konva.Rect({
+    x: 12900,
+    y: 3104,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 343,
+  });
+  const pointsRoad48 = new Konva.Rect({
+    x: 12800,
+    y: 3239,
+    rotation: 1030,
+    fill: roadColour,
+    height: 50,
+    width: 233,
+  });
+  const pointsRoad502 = new Konva.Rect({
+    x: 12800,
+    y: 3569,
+    rotation: 1030,
+    fill: roadColour,
+    height: 50,
+    width: 663,
+  });
+  const road73 = new Konva.Rect({
+    x: 13725,
+    y: 2725,
+    fill: roadColour,
+    height: 50,
+    width: 3844,
+    name: "73Road",
+  });
+  const road74 = new Konva.Rect({
+    x: 14075,
+    y: 2890,
+    fill: roadColour,
+    height: 50,
+    width: 2180,
+    name: "74Road",
+  });
+  const road75 = new Konva.Rect({
+    x: 14195,
+    y: 3055,
+    fill: roadColour,
+    height: 50,
+    width: 2275,
+    name: "75Road",
+  });
+  const pointsRoad53 = new Konva.Rect({
+    x: 12600,
+    y: 4064,
+    rotation: 1030,
+    fill: roadColour,
+    height: 50,
+    width: 1948,
+  });
+  const stopRoad53West = new Konva.Rect({
+    x: 11005,
+    y: 4035,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const road64 = new Konva.Rect({
+    x: 13670,
+    y: 3220,
+    fill: roadColour,
+    height: 50,
+    width: 3500,
+    name: "64Road",
+  });
+  const road65 = new Konva.Rect({
+    x: 13670,
+    y: 3385,
+    fill: roadColour,
+    height: 50,
+    width: 3360,
+    name: "65Road",
+  });
+  const road66 = new Konva.Rect({
+    x: 13670,
+    y: 3550,
+    fill: roadColour,
+    height: 50,
+    width: 3200,
+    name: "66Road",
+  });
+  const road67 = new Konva.Rect({
+    x: 13670,
+    y: 3715,
+    fill: roadColour,
+    height: 50,
+    width: 3070,
+    name: "67Road",
+  });
+  const road68 = new Konva.Rect({
+    x: 13670,
+    y: 3880,
+    fill: roadColour,
+    height: 50,
+    width: 2370,
+    name: "68Road",
+  });
+  const road69 = new Konva.Rect({
+    x: 13670,
+    y: 4045,
+    fill: roadColour,
+    height: 50,
+    width: 2100,
+    name: "69Road",
+  });
+  const road70spur = new Konva.Rect({
+    x: 15725,
+    y: 4210,
+    fill: roadColour,
+    height: 50,
+    width: 600,
+    name: "70Spur",
+  });
+  const road70 = new Konva.Rect({
+    x: 18977,
+    y: 1122,
+    rotation: 130,
+    fill: roadColour,
+    height: 50,
+    width: 6251,
+    name: "70Road",
+  });
+  const pointsRoad69 = new Konva.Rect({
+    x: 16348,
+    y: 3762,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 666,
+  });
+  const stopRoad64 = new Konva.Rect({
+    x: 13670,
+    y: 3210,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad65 = new Konva.Rect({
+    x: 13670,
+    y: 3375,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad66 = new Konva.Rect({
+    x: 13670,
+    y: 3540,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad67 = new Konva.Rect({
+    x: 13670,
+    y: 3705,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad68 = new Konva.Rect({
+    x: 13670,
+    y: 3870,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad69 = new Konva.Rect({
+    x: 13670,
+    y: 4035,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad70Spur = new Konva.Rect({
+    x: 15725,
+    y: 4200,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoad73 = new Konva.Rect({
+    x: 14195,
+    y: 3105,
+    rotation: -130,
+    fill: roadColour,
+    height: 50,
+    width: 446,
+  });
+  const pointsRoad75 = new Konva.Rect({
+    x: 17048,
+    y: 2772,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 666,
+  });
+  const pointsRoad74 = new Konva.Rect({
+    x: 16548,
+    y: 2772,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 337,
+  });
+  const road55 = new Konva.Rect({
+    x: 9520,
+    y: 4540,
+    fill: roadColour,
+    height: 50,
+    width: 2300,
+    name: "55Road",
+  });
+  const pointsRoad55 = new Konva.Rect({
+    x: 9520,
+    y: 4589,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const pointsRoad552 = new Konva.Rect({
+    x: 12108,
+    y: 4424,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 332,
+  });
+  const road57 = new Konva.Rect({
+    x: 8820,
+    y: 4870,
+    fill: roadColour,
+    height: 50,
+    width: 6950,
+    name: "57Road",
+  });
+  const stopRoad57 = new Konva.Rect({
+    x: 8820,
+    y: 4860,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const road59Welding = new Konva.Rect({
+    x: 9640,
+    y: 5200,
+    fill: roadColour,
+    height: 50,
+    width: 3894,
+    name: "59Welding",
+  });
+  const pointsRoad59 = new Konva.Rect({
+    x: 14108,
+    y: 4919,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 663,
+  });
+  const pointsRoad592 = new Konva.Rect({
+    x: 10220,
+    y: 4919,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 663,
+  });
+  const road59 = new Konva.Rect({
+    x: 4840,
+    y: 5200,
+    fill: roadColour,
+    height: 50,
+    width: 4800,
+    name: "59Road",
+  });
+  const road59A = new Konva.Rect({
+    x: 4840,
+    y: 5365,
+    fill: roadColour,
+    height: 50,
+    width: 4000,
+    name: "59ARoad",
+  });
+  const road58C = new Konva.Rect({
+    x: 4840,
+    y: 5035,
+    fill: roadColour,
+    height: 50,
+    width: 3698,
+    name: "58CRoad",
+  });
+  const road58B = new Konva.Rect({
+    x: 4840,
+    y: 4870,
+    fill: roadColour,
+    height: 50,
+    width: 3408,
+    name: "58BRoad",
+  });
+  const road58A = new Konva.Rect({
+    x: 4840,
+    y: 4705,
+    fill: roadColour,
+    height: 50,
+    width: 3130,
+    name: "58ARoad",
+  });
+  const road58 = new Konva.Rect({
+    x: 4840,
+    y: 4540,
+    fill: roadColour,
+    height: 50,
+    width: 2852,
+    name: "58Road",
+  });
+  const pointsRoad59A = new Konva.Rect({
+    x: 9128,
+    y: 5249,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 333,
+  });
+  const pointsRoad59A2 = new Konva.Rect({
+    x: 8820,
+    y: 5249,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 1331,
+  });
+  const stopRoad58West = new Konva.Rect({
+    x: 4840,
+    y: 4530,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad58AWest = new Konva.Rect({
+    x: 4840,
+    y: 4695,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad58BWest = new Konva.Rect({
+    x: 4840,
+    y: 4860,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad58CWest = new Konva.Rect({
+    x: 4840,
+    y: 5025,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad59West = new Konva.Rect({
+    x: 4840,
+    y: 5190,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const stopRoad59AWest = new Konva.Rect({
+    x: 4840,
+    y: 5355,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadReception = new Konva.Rect({
+    x: 100,
+    y: 5530,
+    fill: roadColour,
+    height: 50,
+    width: 15134,
+    name: "ReceptionRoad",
+  });
+  const stopRoadReceptionAWest = new Konva.Rect({
+    x: 100,
+    y: 5520,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const pointsRoadReception = new Konva.Rect({
+    x: 3533,
+    y: 5414,
+    rotation: 150,
+    fill: roadColour,
+    height: 50,
+    width: 333,
+  });
+  const roadNearside = new Konva.Rect({
+    x: 4100,
+    y: 5695,
+    fill: roadColour,
+    height: 50,
+    width: 10980,
+    name: "NearsideRoad",
+  });
+  const pointsNearside = new Konva.Rect({
+    x: 7841,
+    y: 5744,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const stopRoadNearside = new Konva.Rect({
+    x: 4100,
+    y: 5685,
+    fill: "red",
+    height: 70,
+    width: 10,
+  });
+  const roadFarside = new Konva.Rect({
+    x: 8300,
+    y: 5860,
+    fill: roadColour,
+    height: 50,
+    width: 6658,
+    name: "FarsideRoad",
+  });
+  const road63 = new Konva.Rect({
+    x: 8701,
+    y: 6025,
+    fill: roadColour,
+    height: 50,
+    width: 1658,
+    name: "63Road",
+  });
+  const pointsNearside2 = new Konva.Rect({
+    x: 8301,
+    y: 5909,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const pointsFarside = new Konva.Rect({
+    x: 8701,
+    y: 6074,
+    rotation: -150,
+    fill: roadColour,
+    height: 50,
+    width: 341,
+  });
+  const stopRoad63East = new Konva.Rect({
+    x: 10359,
+    y: 6015,
+    fill: "red",
+    height: 72,
+    width: 10,
+  });
+  const roadMet1 = new Konva.Rect({
+    x: 3500,
+    y: 5415,
+    rotation: -90,
+    fill: roadColour,
+    height: 50,
+    width: 3000,
+    name: "Met",
+  });
+  const roadMet2 = new Konva.Rect({
+    x: 3200,
+    y: 5415,
+    rotation: -90,
+    fill: roadColour,
+    height: 50,
+    width: 3000,
+    name: "Met",
+  });
+  const pointsRoadMet = new Konva.Rect({
+    x: 3503,
+    y: 5014,
+    rotation: 220,
+    fill: roadColour,
+    height: 50,
+    width: 399,
+  });
+  const pointsRoad322 = new Konva.Rect({
+    x: 19577,
+    y: 627,
+    rotation: 130,
+    fill: roadColour,
+    height: 50,
+    width: 651,
+  });
+  const pointsRoad323 = new Konva.Rect({
+    x: 19577,
+    y: 1122,
+    rotation: -130,
+    fill: roadColour,
+    height: 50,
+    width: 651,
+  });
+  const stopRoad32East = new Konva.Rect({
+    x: 21020,
+    y: 570,
+    fill: "red",
+    height: 72,
+    width: 10,
+  });
+  const stopRoad35East = new Konva.Rect({
+    x: 22270,
+    y: 1065,
+    fill: "red",
+    height: 72,
+    width: 10,
+  });
+  const pointsRoad352 = new Konva.Rect({
+    x: 22077,
+    y: 297,
+    rotation: 130,
+    fill: roadColour,
+    height: 50,
+    width: 1081,
   });
   tracksLayer.add(
     roadEastBound,
@@ -515,7 +1502,132 @@ document.addEventListener("DOMContentLoaded", function () {
     road42,
     road43,
     pointsRoad38,
-    pointsRoad40
+    pointsRoad40,
+    pointsRoad274,
+    road44,
+    road45,
+    road46,
+    road47,
+    road48,
+    road49,
+    road50,
+    road51,
+    road52,
+    pointsRoad50,
+    pointsRoad275,
+    pointsRoad276,
+    pointsRoad277,
+    road53,
+    roadA,
+    roadB,
+    roadB1,
+    roadB2,
+    roadC,
+    roadD,
+    roadE,
+    roadF,
+    roadG,
+    roadH,
+    roadBank,
+    road54,
+    stopRoadAWest,
+    stopRoadBWest,
+    stopRoadB1West,
+    stopRoadB2West,
+    stopRoadCWest,
+    stopRoadDWest,
+    stopRoadEWest,
+    stopRoadFWest,
+    stopRoadGWest,
+    stopRoadHWest,
+    pointsRoadA,
+    pointsRoadB1,
+    pointsRoadB2,
+    pointsRoadBank,
+    pointsRoadE,
+    pointsRoadG,
+    pointsRoad311,
+    pointsEastbound,
+    pointsRoad34,
+    pointsRoad372,
+    pointsRoad302,
+    stopRoad39East,
+    pointsRoad8,
+    pointsRoad402,
+    pointsRoad373,
+    pointsRoad42,
+    pointsRoad43,
+    pointsRoad431,
+    pointsRoad432,
+    stopRoad45East,
+    pointsRoad46,
+    pointsRoad48,
+    pointsRoad502,
+    road73,
+    road74,
+    road75,
+    pointsRoad53,
+    stopRoad53West,
+    road64,
+    road65,
+    road66,
+    road67,
+    road68,
+    road69,
+    road70spur,
+    road70,
+    pointsRoad69,
+    stopRoad64,
+    stopRoad65,
+    stopRoad66,
+    stopRoad67,
+    stopRoad68,
+    stopRoad69,
+    stopRoad70Spur,
+    pointsRoad73,
+    pointsRoad75,
+    pointsRoad74,
+    road55,
+    pointsRoad55,
+    pointsRoad552,
+    road57,
+    stopRoad57,
+    road59,
+    road59Welding,
+    pointsRoad59,
+    pointsRoad592,
+    road58,
+    road58A,
+    road58B,
+    road58C,
+    road59A,
+    pointsRoad59A,
+    pointsRoad59A2,
+    stopRoad58West,
+    stopRoad58AWest,
+    stopRoad58BWest,
+    stopRoad58CWest,
+    stopRoad59West,
+    stopRoad59AWest,
+    roadReception,
+    stopRoadReceptionAWest,
+    pointsRoadReception,
+    roadNearside,
+    pointsNearside,
+    pointsNearside2,
+    stopRoadNearside,
+    roadFarside,
+    road63,
+    pointsFarside,
+    stopRoad63East,
+    roadMet1,
+    roadMet2,
+    pointsRoadMet,
+    pointsRoad322,
+    pointsRoad323,
+    stopRoad32East,
+    stopRoad35East,
+    pointsRoad352
   );
   tracksLayer.batchDraw();
 
@@ -561,62 +1673,14 @@ document.addEventListener("DOMContentLoaded", function () {
       align: "center",
     });
 
-    const infoText = new Konva.Text({
-      x: 100,
-      y: 60,
-      text: "ATP: YES\n\nTBTC: YES\n\nSERVICE? YES",
-      fontSize: 20,
-      fontFamily: "Calibri",
-      fill: "white",
-      width: 200,
-      align: "center",
-      lineHeight: 0.7,
-      visible: false,
-    });
+    loco.add(rectangle, line, line2, locoNumberText);
 
-    const infoRectangle = new Konva.Rect({
-      x: 100,
-      y: 50,
-      fill: "rgba(100,100,100,0.5",
-      height: 100,
-      width: 200,
-      stroke: "blue",
-      strokeWidth: 2,
-      cornerRadius: 10,
-      visible: false,
-    });
-
-    loco.add(rectangle, line, line2, locoNumberText, infoRectangle, infoText);
-
-    return { loco, infoRectangle, infoText };
+    return { loco };
   }
 
   for (let i = 1; i <= numberOfLocos; i++) {
     const locoName = `L${i}`;
-    const { loco, infoRectangle, infoText } = createLocomotive(
-      i,
-      i * 220,
-      50,
-      locoName
-    );
-
-    // loco.on("mouseover", function () {
-    //   infoRectangle.visible(true);
-    //   infoText.visible(true);
-    //   layer.batchDraw;
-    // });
-
-    // loco.on("mousedown", function () {
-    //   infoRectangle.visible(false);
-    //   infoText.visible(false);
-    //   layer.batchDraw;
-    // });
-
-    // loco.on("mouseout", function () {
-    //   infoRectangle.visible(false);
-    //   infoText.visible(false);
-    //   layer.batchDraw;
-    // });
+    const { loco } = createLocomotive(i, i * 250 + 500, 7550, locoName);
 
     layer.add(loco);
   }

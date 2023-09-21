@@ -71,3 +71,21 @@ function haveIntersection(r1, r2) {
 Distance between roads: 165
 
 */
+
+// loco.on("mouseover", function () {
+//   infoRectangle.visible(true);
+//   infoText.visible(true);
+//   layer.batchDraw;
+// });
+
+// loco.on("mousedown", function () {
+//   infoRectangle.visible(false);
+//   infoText.visible(false);
+//   layer.batchDraw;
+// });
+
+// loco.on("mouseout", function () {
+//   infoRectangle.visible(false);
+//   infoText.visible(false);
+//   layer.batchDraw;
+// });
