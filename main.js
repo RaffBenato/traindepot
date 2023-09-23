@@ -10,14 +10,88 @@ document.addEventListener("DOMContentLoaded", function () {
   const unlockButton = document.getElementById("unlock");
 
   //Zooming variables
-  const initialScale = 0.07;
+  const initialScale = 0.12;
   const minScale = 0.06894334949441323;
   const maxScale = 1.2;
   // Panning variables
   let isDragging = false;
   let lastPosition = { x: 0, y: 0 };
-  //Wagons Numbers
-  const numberOfLocos = 10;
+
+  //WAGONS
+  locos = [
+    "L15",
+    "L16",
+    "L17",
+    "L18",
+    "L19",
+    "L20",
+    "L21",
+    "L22",
+    "L23",
+    "L24",
+    "L25",
+    "L26",
+    "L27",
+    "L28",
+    "L29",
+    "L30",
+    "L31",
+    "L32",
+    "L44",
+    "L45",
+    "L46",
+    "L47",
+    "L48",
+    "L49",
+    "L50",
+    "L51",
+    "L52",
+    "L53",
+    "L54",
+  ];
+
+  rws = ["1053", "1054", "1055"];
+
+  gps = [
+    "901",
+    "902",
+    "903",
+    "904",
+    "905",
+    "906",
+    "907",
+    "908",
+    "909",
+    "910",
+    "911",
+    "913",
+    "914",
+    "915",
+    "916",
+    "917",
+    "918",
+    "919",
+    "920",
+    "921",
+    "922",
+    "924",
+    "925",
+    "926",
+    "927",
+    "928",
+    "929",
+    "930",
+    "931",
+    "933",
+    "934",
+    "935",
+    "936",
+    "937",
+    "938",
+    "939",
+    "940",
+  ];
+
   //Roads
   const roadColour = "rgb(180,180,180)";
 
@@ -2380,7 +2454,7 @@ document.addEventListener("DOMContentLoaded", function () {
   roadNumbers.batchDraw();
 
   //CREATE LOCOS
-  function createLocomotive(locoNumber, positionX, positionY, locoName) {
+  function createLocomotive(positionX, positionY, locoName) {
     const loco = new Konva.Group({
       x: positionX,
       y: positionY,
@@ -2415,7 +2489,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const locoNumberText = new Konva.Text({
       x: 0,
       y: 25,
-      text: `L${locoNumber.toString()}`,
+      text: locoName,
       fontSize: 60,
       fontFamily: "Arial",
       fontStyle: "bold",
@@ -2429,13 +2503,101 @@ document.addEventListener("DOMContentLoaded", function () {
     return { loco };
   }
 
-  for (let i = 1; i <= numberOfLocos; i++) {
-    const locoName = `L${i}`;
-    const { loco } = createLocomotive(i, i * 250 + 500, 7550, locoName);
+  //CREATE RWS
+  function createRailWagons(positionX, positionY, wagonName) {
+    const rw = new Konva.Group({
+      x: positionX,
+      y: positionY,
+      draggable: true,
+      name: wagonName,
+    });
+
+    rw.setAttr("defaultx", positionX);
+    rw.setAttr("defaulty", positionY);
+
+    const rectangle = new Konva.Rect({
+      fill: "orange",
+      height: 100,
+      width: 200,
+      stroke: "blue",
+      strokeWidth: 4,
+      cornerRadius: 10,
+    });
+
+    const wagonNumberText = new Konva.Text({
+      x: 0,
+      y: 25,
+      text: wagonName,
+      fontSize: 60,
+      fontFamily: "Arial",
+      fontStyle: "bold",
+      fill: "blue",
+      width: 200,
+      align: "center",
+    });
+
+    rw.add(rectangle, wagonNumberText);
+
+    return { rw };
+  }
+
+  //CREATE GPS
+  function createGps(positionX, positionY, wagonName) {
+    const gp = new Konva.Group({
+      x: positionX,
+      y: positionY,
+      draggable: true,
+      name: wagonName,
+    });
+
+    gp.setAttr("defaultx", positionX);
+    gp.setAttr("defaulty", positionY);
+
+    const rectangle = new Konva.Rect({
+      fill: "#EFF59E",
+      height: 100,
+      width: 200,
+      stroke: "blue",
+      strokeWidth: 4,
+      cornerRadius: 10,
+    });
+
+    const wagonNumberText = new Konva.Text({
+      x: 0,
+      y: 25,
+      text: wagonName,
+      fontSize: 60,
+      fontFamily: "Arial",
+      fontStyle: "bold",
+      fill: "blue",
+      width: 200,
+      align: "center",
+    });
+
+    gp.add(rectangle, wagonNumberText);
+
+    return { gp };
+  }
+
+  for (let i = 1; i <= locos.length; i++) {
+    const locoName = locos[i - 1];
+    const { loco } = createLocomotive(i * 250 + 500, 7550, locoName);
 
     layer.add(loco);
   }
+  for (let i = 1; i <= rws.length; i++) {
+    const rwName = rws[i - 1];
+    const { rw } = createRailWagons(i * 250 + 8500, 7550, rwName);
 
+    layer.add(rw);
+  }
+  for (let i = 1; i <= gps.length; i++) {
+    const gpName = gps[i - 1];
+    const { gp } = createGps(i * 250 + 500, 7750, gpName);
+
+    layer.add(gp);
+  }
+  ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
   //ZOOM
   stage.scaleX(initialScale);
   stage.scaleY(initialScale);
