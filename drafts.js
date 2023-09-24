@@ -96,7 +96,7 @@ Distance between roads: 165
 //   layer.batchDraw;
 // });
 
-// const newPositionX = touchingLoco.x() + 201;
-// const newPositionY = touchingLoco.y();
+/////////////////////////////////////TO DO//////////////////////
+// Fix bug when coupling 3 trains is leaving a gap between wagons
 
-// movedWagon.position({ x: newPositionX, y: newPositionY });
+// Fix find loco bug when in a rake

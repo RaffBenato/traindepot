@@ -2588,17 +2588,29 @@ document.addEventListener("DOMContentLoaded", function () {
     const locoName = locos[i - 1];
     const { loco } = createLocomotive(i * 250 + 500, 7550, locoName);
 
+    loco.on("click tap", function () {
+      handleSelection(loco);
+    });
+
     layer.add(loco);
   }
   for (let i = 1; i <= cws.length; i++) {
     const cwName = cws[i - 1];
     const { cw } = createRailWagons(i * 250 + 8500, 7550, cwName);
 
+    cw.on("click tap", function () {
+      handleSelection(cw);
+    });
+
     layer.add(cw);
   }
   for (let i = 1; i <= gps.length; i++) {
     const gpName = gps[i - 1];
     const { gp } = createGps(i * 250 + 500, 7750, gpName);
+
+    gp.on("click tap", function () {
+      handleSelection(gp);
+    });
 
     layer.add(gp);
   }
@@ -2814,6 +2826,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tracksLayer.children.forEach(function (road) {
       if (haveIntersection(movedWagon.getClientRect(), road.getClientRect())) {
+        // handleSelection(movedWagon);
+
         isOutOfRoad = false;
         return;
       }
@@ -2854,23 +2868,33 @@ document.addEventListener("DOMContentLoaded", function () {
               name: "rake",
             });
 
+            handleSelection(rake);
+
             movedWagon.remove();
             touchingLoco.remove();
             touchingLoco.draggable(false);
             movedWagon.draggable(false);
             rake.add(movedWagon, touchingLoco);
+            movedWagon.moveToBottom();
+            touchingLoco.moveToBottom();
 
             touchingLoco.position({ x: 0, y: 0 });
             movedWagon.position({
               x: touchingLoco.width(),
               y: 0,
             });
+
+            rake.on("click tap", function () {
+              handleSelection(rake);
+            });
+
             layer.add(rake);
             layer.batchDraw();
           }
         }
       });
     }
+
     layer.batchDraw();
   });
 
@@ -2893,5 +2917,37 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     return null;
+  }
+
+  //Selection
+  function handleSelection(child) {
+    layer.children.forEach(function (child) {
+      const borderRect = child.find(".borderRect");
+
+      if (borderRect.length > 0) {
+        borderRect[0].destroy();
+        layer.batchDraw();
+      }
+    });
+
+    if (selectedWagon !== child) {
+      const borderRect = new Konva.Rect({
+        x: 0,
+        y: 0,
+        width: child.width(),
+        height: 100,
+        stroke: "darkblue",
+        strokeWidth: 20,
+        draggable: false,
+        name: "borderRect",
+      });
+
+      child.add(borderRect);
+      selectedWagon = child;
+    } else {
+      selectedWagon = null;
+    }
+
+    layer.batchDraw();
   }
 });
