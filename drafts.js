@@ -89,3 +89,14 @@ Distance between roads: 165
 //   infoText.visible(false);
 //   layer.batchDraw;
 // });
+
+// loco.on("click tap", function () {
+//   rectangle.stroke("red");
+//   rectangle.strokeWidth(20);
+//   layer.batchDraw;
+// });
+
+// const newPositionX = touchingLoco.x() + 201;
+// const newPositionY = touchingLoco.y();
+
+// movedWagon.position({ x: newPositionX, y: newPositionY });

@@ -18,6 +18,8 @@ document.addEventListener("DOMContentLoaded", function () {
   let lastPosition = { x: 0, y: 0 };
 
   //WAGONS
+  let selectedWagon = null;
+
   locos = [
     "L15",
     "L16",
@@ -50,7 +52,7 @@ document.addEventListener("DOMContentLoaded", function () {
     "L54",
   ];
 
-  rws = ["1053", "1054", "1055"];
+  cws = ["1053", "1054", "1055"];
 
   gps = [
     "901",
@@ -2458,6 +2460,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const loco = new Konva.Group({
       x: positionX,
       y: positionY,
+      width: 200,
       draggable: true,
       name: locoName,
     });
@@ -2493,7 +2496,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fontSize: 60,
       fontFamily: "Arial",
       fontStyle: "bold",
-      fill: "blue",
+      fill: "darkblue",
       width: 200,
       align: "center",
     });
@@ -2503,17 +2506,18 @@ document.addEventListener("DOMContentLoaded", function () {
     return { loco };
   }
 
-  //CREATE RWS
+  //CREATE CWS
   function createRailWagons(positionX, positionY, wagonName) {
-    const rw = new Konva.Group({
+    const cw = new Konva.Group({
       x: positionX,
       y: positionY,
+      width: 200,
       draggable: true,
       name: wagonName,
     });
 
-    rw.setAttr("defaultx", positionX);
-    rw.setAttr("defaulty", positionY);
+    cw.setAttr("defaultx", positionX);
+    cw.setAttr("defaulty", positionY);
 
     const rectangle = new Konva.Rect({
       fill: "orange",
@@ -2531,14 +2535,14 @@ document.addEventListener("DOMContentLoaded", function () {
       fontSize: 60,
       fontFamily: "Arial",
       fontStyle: "bold",
-      fill: "blue",
+      fill: "darkblue",
       width: 200,
       align: "center",
     });
 
-    rw.add(rectangle, wagonNumberText);
+    cw.add(rectangle, wagonNumberText);
 
-    return { rw };
+    return { cw };
   }
 
   //CREATE GPS
@@ -2546,6 +2550,7 @@ document.addEventListener("DOMContentLoaded", function () {
     const gp = new Konva.Group({
       x: positionX,
       y: positionY,
+      width: 200,
       draggable: true,
       name: wagonName,
     });
@@ -2554,7 +2559,7 @@ document.addEventListener("DOMContentLoaded", function () {
     gp.setAttr("defaulty", positionY);
 
     const rectangle = new Konva.Rect({
-      fill: "#EFF59E",
+      fill: "#89920B",
       height: 100,
       width: 200,
       stroke: "blue",
@@ -2569,7 +2574,7 @@ document.addEventListener("DOMContentLoaded", function () {
       fontSize: 60,
       fontFamily: "Arial",
       fontStyle: "bold",
-      fill: "blue",
+      fill: "darkblue",
       width: 200,
       align: "center",
     });
@@ -2585,11 +2590,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
     layer.add(loco);
   }
-  for (let i = 1; i <= rws.length; i++) {
-    const rwName = rws[i - 1];
-    const { rw } = createRailWagons(i * 250 + 8500, 7550, rwName);
+  for (let i = 1; i <= cws.length; i++) {
+    const cwName = cws[i - 1];
+    const { cw } = createRailWagons(i * 250 + 8500, 7550, cwName);
 
-    layer.add(rw);
+    layer.add(cw);
   }
   for (let i = 1; i <= gps.length; i++) {
     const gpName = gps[i - 1];
@@ -2802,6 +2807,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   });
 
+  //CHECKS IF WAGON IS ON TRACK AND COUPLES IT IF DROPPED ON TOP OF ANOTHER
   layer.on("dragend", function (e) {
     const movedWagon = e.target;
     let isOutOfRoad = true;
@@ -2814,10 +2820,57 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 
     if (isOutOfRoad) {
-      movedWagon.x(movedWagon.getAttr("defaultx"));
-      movedWagon.y(movedWagon.getAttr("defaulty"));
-    }
+      if (movedWagon.getName() === "rake") {
+        return;
+      } else {
+        movedWagon.x(movedWagon.getAttr("defaultx"));
+        movedWagon.y(movedWagon.getAttr("defaulty"));
+      }
+    } else {
+      layer.children.forEach(function (loco) {
+        if (loco === movedWagon) {
+          return;
+        }
 
+        if (
+          haveIntersection(movedWagon.getClientRect(), loco.getClientRect())
+        ) {
+          const touchingLoco = findTouchingLoco(movedWagon);
+
+          if (touchingLoco) {
+            let newWidth;
+
+            if (touchingLoco.getName() === "rake") {
+              newWidth = touchingLoco.width() + movedWagon.width();
+            } else {
+              newWidth = 200;
+            }
+
+            const rake = new Konva.Group({
+              x: touchingLoco.x(),
+              y: touchingLoco.y(),
+              width: newWidth,
+              draggable: true,
+              name: "rake",
+            });
+
+            movedWagon.remove();
+            touchingLoco.remove();
+            touchingLoco.draggable(false);
+            movedWagon.draggable(false);
+            rake.add(movedWagon, touchingLoco);
+
+            touchingLoco.position({ x: 0, y: 0 });
+            movedWagon.position({
+              x: touchingLoco.width(),
+              y: 0,
+            });
+            layer.add(rake);
+            layer.batchDraw();
+          }
+        }
+      });
+    }
     layer.batchDraw();
   });
 
@@ -2828,5 +2881,17 @@ document.addEventListener("DOMContentLoaded", function () {
       r2.y > r1.y + r1.height ||
       r2.y + r2.height < r1.y
     );
+  }
+
+  function findTouchingLoco(movedWagon) {
+    for (const loco of layer.children) {
+      if (
+        loco !== movedWagon &&
+        haveIntersection(loco.getClientRect(), movedWagon.getClientRect())
+      ) {
+        return loco;
+      }
+    }
+    return null;
   }
 });
