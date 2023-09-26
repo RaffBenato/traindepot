@@ -21,8 +21,8 @@ document.addEventListener("DOMContentLoaded", function () {
       image: logo,
     });
     logoImg.scale({ x: 5, y: 5 });
-    layer.add(logoImg);
-    layer.batchDraw();
+    outOfTrackLayer.add(logoImg);
+    outOfTrackLayer.batchDraw();
   };
 
   //Zooming variables
