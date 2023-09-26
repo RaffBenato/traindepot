@@ -97,6 +97,5 @@ Distance between roads: 165
 // });
 
 /////////////////////////////////////TO DO//////////////////////
-// Fix bug when coupling 3 trains is leaving a gap between wagons
 
 // Fix find loco bug when in a rake

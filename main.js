@@ -8,6 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const findButton = document.getElementById("find-btn");
   const lockButton = document.getElementById("lock");
   const unlockButton = document.getElementById("unlock");
+  const uncoupleButton = document.getElementById("uncouple");
 
   //Zooming variables
   const initialScale = 0.12;
@@ -19,6 +20,9 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //WAGONS
   let selectedWagon = null;
+  let uncoupleOffsetX;
+  let rakeX;
+  let rakeY;
 
   locos = [
     "L15",
@@ -56,42 +60,42 @@ document.addEventListener("DOMContentLoaded", function () {
 
   gps = [
     "901",
-    "902",
-    "903",
-    "904",
-    "905",
-    "906",
-    "907",
-    "908",
-    "909",
-    "910",
-    "911",
-    "913",
-    "914",
-    "915",
-    "916",
-    "917",
-    "918",
-    "919",
-    "920",
-    "921",
-    "922",
-    "924",
-    "925",
-    "926",
-    "927",
-    "928",
-    "929",
-    "930",
-    "931",
-    "933",
-    "934",
-    "935",
-    "936",
-    "937",
-    "938",
-    "939",
-    "940",
+    // "902",
+    // "903",
+    // "904",
+    // "905",
+    // "906",
+    // "907",
+    // "908",
+    // "909",
+    // "910",
+    // "911",
+    // "913",
+    // "914",
+    // "915",
+    // "916",
+    // "917",
+    // "918",
+    // "919",
+    // "920",
+    // "921",
+    // "922",
+    // "924",
+    // "925",
+    // "926",
+    // "927",
+    // "928",
+    // "929",
+    // "930",
+    // "931",
+    // "933",
+    // "934",
+    // "935",
+    // "936",
+    // "937",
+    // "938",
+    // "939",
+    // "940",
   ];
 
   //Roads
@@ -2826,8 +2830,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     tracksLayer.children.forEach(function (road) {
       if (haveIntersection(movedWagon.getClientRect(), road.getClientRect())) {
-        // handleSelection(movedWagon);
-
         isOutOfRoad = false;
         return;
       }
@@ -2841,55 +2843,54 @@ document.addEventListener("DOMContentLoaded", function () {
         movedWagon.y(movedWagon.getAttr("defaulty"));
       }
     } else {
+      let ignoreCoupling = false;
       layer.children.forEach(function (loco) {
-        if (loco === movedWagon) {
+        if (loco === movedWagon || ignoreCoupling === true) {
           return;
-        }
+        } else {
+          if (
+            haveIntersection(movedWagon.getClientRect(), loco.getClientRect())
+          ) {
+            const touchingLoco = findTouchingLoco(movedWagon);
 
-        if (
-          haveIntersection(movedWagon.getClientRect(), loco.getClientRect())
-        ) {
-          const touchingLoco = findTouchingLoco(movedWagon);
+            if (touchingLoco) {
+              let newWidth;
 
-          if (touchingLoco) {
-            let newWidth;
-
-            if (touchingLoco.getName() === "rake") {
               newWidth = touchingLoco.width() + movedWagon.width();
-            } else {
-              newWidth = 200;
-            }
 
-            const rake = new Konva.Group({
-              x: touchingLoco.x(),
-              y: touchingLoco.y(),
-              width: newWidth,
-              draggable: true,
-              name: "rake",
-            });
+              const rake = new Konva.Group({
+                x: touchingLoco.x(),
+                y: touchingLoco.y(),
+                width: newWidth,
+                draggable: true,
+                name: "rake",
+              });
 
-            handleSelection(rake);
-
-            movedWagon.remove();
-            touchingLoco.remove();
-            touchingLoco.draggable(false);
-            movedWagon.draggable(false);
-            rake.add(movedWagon, touchingLoco);
-            movedWagon.moveToBottom();
-            touchingLoco.moveToBottom();
-
-            touchingLoco.position({ x: 0, y: 0 });
-            movedWagon.position({
-              x: touchingLoco.width(),
-              y: 0,
-            });
-
-            rake.on("click tap", function () {
               handleSelection(rake);
-            });
 
-            layer.add(rake);
-            layer.batchDraw();
+              movedWagon.remove();
+              touchingLoco.remove();
+              touchingLoco.draggable(false);
+              movedWagon.draggable(false);
+
+              rake.add(movedWagon, touchingLoco);
+              movedWagon.moveToBottom();
+              touchingLoco.moveToBottom();
+
+              touchingLoco.position({ x: 0, y: 0 });
+              movedWagon.position({
+                x: touchingLoco.width(),
+                y: 0,
+              });
+
+              rake.on("click tap", function () {
+                handleSelection(rake);
+              });
+
+              layer.add(rake);
+              layer.batchDraw();
+              ignoreCoupling = true;
+            }
           }
         }
       });
@@ -2917,6 +2918,55 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
     return null;
+  }
+
+  //Uncouple
+  uncoupleButton.addEventListener("click", () => {
+    if (selectedWagon.getName() === "rake") {
+      uncoupleOffsetX = 0;
+      rakeX = selectedWagon.x();
+      rakeY = selectedWagon.y();
+      handleUncouple(selectedWagon);
+    }
+  });
+
+  function handleUncouple(wagons) {
+    if (selectedWagon) {
+      //Deselects
+      layer.children.forEach(function (child) {
+        const borderRect = child.find(".borderRect");
+
+        if (borderRect.length > 0) {
+          borderRect[0].destroy();
+          layer.batchDraw();
+        }
+      });
+
+      let rakesToUncouple = [];
+
+      wagons.children.forEach(function (wagon) {
+        rakesToUncouple.push(wagon);
+      });
+
+      rakesToUncouple.forEach(function (wagon) {
+        if (wagon.getName() === "rake") {
+          handleUncouple(wagon);
+          uncoupleOffsetX -= 200;
+        }
+        wagon.position({ x: rakeX + uncoupleOffsetX, y: rakeY });
+        wagon.draggable(true);
+        layer.add(wagon);
+        uncoupleOffsetX += 200;
+      });
+
+      wagons.destroy();
+      layer.children.forEach(function (wagon) {
+        if (wagon.children.length === 0) {
+          wagon.destroy();
+        }
+      });
+      layer.batchDraw();
+    }
   }
 
   //Selection
