@@ -9,6 +9,8 @@ document.addEventListener("DOMContentLoaded", function () {
   const lockButton = document.getElementById("lock");
   const unlockButton = document.getElementById("unlock");
   const uncoupleButton = document.getElementById("uncouple");
+  const panelButton = document.getElementById("panel");
+  const infoPanel = document.querySelector(".info-panel");
 
   //Zooming variables
   const initialScale = 0.12;
@@ -117,7 +119,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const outOfTrackRectangle = new Konva.Rect({
     x: 500,
     y: 7250,
-    fill: "rgba(0,0,180,0.5)",
+    fill: "rgba(0,0,0,0.5)",
     height: 2050,
     width: 20500,
     stroke: "darkblue",
@@ -1467,8 +1469,8 @@ document.addEventListener("DOMContentLoaded", function () {
     width: 10,
   });
   const roadMet1 = new Konva.Rect({
-    x: 3500,
-    y: 5415,
+    x: 3485,
+    y: 5412,
     rotation: -90,
     fill: roadColour,
     height: 50,
@@ -1490,7 +1492,7 @@ document.addEventListener("DOMContentLoaded", function () {
     rotation: 220,
     fill: roadColour,
     height: 50,
-    width: 399,
+    width: 390,
   });
   const pointsRoad322 = new Konva.Rect({
     x: 19577,
@@ -3000,4 +3002,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     layer.batchDraw();
   }
+
+  panelButton.addEventListener("click", () => {
+    infoPanel.classList.toggle("hidden");
+  });
 });

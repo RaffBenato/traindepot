@@ -57,6 +57,22 @@ body {
   font-size: 3rem;
 }
 
+.info-panel {
+  width: 100vw;
+  height: 30px;
+  position: fixed;
+  bottom: 0;
+  background-color: black;
+  z-index: 1;
+  color: white;
+  font-family: "Courier New", Courier, monospace;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+  font-size: 0.8rem;
+}
+
 .hidden {
   display: none;
 }
