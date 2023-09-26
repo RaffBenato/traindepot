@@ -18,51 +18,29 @@
     <title>Train Depot</title>
   </head>
   <body>
-    <div class="zoom-btns">
-      <button id="zoom-in" class="btn-zoom">
-        <i class="fa-solid fa-magnifying-glass-plus"></i>
-      </button>
-      <button id="zoom-out" class="btn-zoom">
-        <i class="fa-solid fa-magnifying-glass-minus"></i>
-      </button>
-      <button id="zoom-whole" class="btn-zoom">
-        <i class="fa-solid fa-map"></i>
-      </button>
-      <button id="zoom-find" class="btn-zoom">
-        <i class="fa-solid fa-magnifying-glass-location"></i>
-      </button>
-      <button id="lock" class="btn-zoom">
-        <i class="fa-solid fa-lock"></i>
-      </button>
-      <button id="unlock" class="btn-zoom hidden">
-        <i class="fa-solid fa-lock-open"></i>
-      </button>
-      <button id="uncouple" class="btn-zoom">
-        <i class="fa-solid fa-link-slash"></i>
-      </button>
-      <button id="panel" class="btn-zoom">
-        <i class="fa-solid fa-info"></i>
-      </button>
-    </div>
+    <div class="container">
+      <img class="logo" src="/img/logo.png" alt="" />
+      <div class="login-panel">
+        <div class="login-text">LOGIN</div>
 
-    <div class="find-modal hidden">
-      <input
-        class="find-input"
-        type="text"
-        id="find"
-        name="find"
-        maxlength="10"
-      />
-      <button id="find-btn" class="btn-find">GO</button>
-    </div>
+        <input
+          class="login-input"
+          type="text"
+          id="login-user"
+          placeholder="User"
+        />
 
-    <div class="info-panel hidden">
-      <div class="info-text">Wagon: L30</div>
-      <div class="info-text">ATP: Yes</div>
-      <div class="info-text">TBTC: Yes</div>
-      <div class="info-text">Status: In Service</div>
-    </div>
+        <input
+          class="login-input"
+          type="password"
+          id="login-password"
+          placeholder="Password"
+        />
 
-    <div id="konva-holder"></div>
+        <button id="login-btn" class="btn-login">GO</button>
+
+        <a href="depot.html">Temp Link</a>
+      </div>
+    </div>
   </body>
 </html>

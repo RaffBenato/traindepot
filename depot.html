@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <script src="https://cdn.jsdelivr.net/npm/konva@8.2.0/konva.min.js"></script>
+
+    <script src="./main.js"></script>
+
+    <script
+      src="https://kit.fontawesome.com/7cc20310dc.js"
+      crossorigin="anonymous"
+    ></script>
+
+    <link rel="stylesheet" href="./index.css" />
+
+    <title>Train Depot</title>
+  </head>
+  <body>
+    <div class="zoom-btns">
+      <button id="zoom-in" class="btn-zoom">
+        <i class="fa-solid fa-magnifying-glass-plus"></i>
+      </button>
+      <button id="zoom-out" class="btn-zoom">
+        <i class="fa-solid fa-magnifying-glass-minus"></i>
+      </button>
+      <button id="zoom-whole" class="btn-zoom">
+        <i class="fa-solid fa-map"></i>
+      </button>
+      <button id="zoom-find" class="btn-zoom">
+        <i class="fa-solid fa-magnifying-glass-location"></i>
+      </button>
+      <button id="lock" class="btn-zoom">
+        <i class="fa-solid fa-lock"></i>
+      </button>
+      <button id="unlock" class="btn-zoom hidden">
+        <i class="fa-solid fa-lock-open"></i>
+      </button>
+      <button id="uncouple" class="btn-zoom">
+        <i class="fa-solid fa-link-slash"></i>
+      </button>
+      <button id="panel" class="btn-zoom">
+        <i class="fa-solid fa-info"></i>
+      </button>
+    </div>
+
+    <div class="find-modal hidden">
+      <input
+        class="find-input"
+        type="text"
+        id="find"
+        name="find"
+        maxlength="10"
+      />
+      <button id="find-btn" class="btn-find">GO</button>
+    </div>
+
+    <div class="info-panel hidden">
+      <div class="info-text">Wagon: L30</div>
+      <div class="info-text">ATP: Yes</div>
+      <div class="info-text">TBTC: Yes</div>
+      <div class="info-text">Status: In Service</div>
+    </div>
+
+    <div id="konva-holder"></div>
+  </body>
+</html>

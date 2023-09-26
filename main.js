@@ -12,6 +12,19 @@ document.addEventListener("DOMContentLoaded", function () {
   const panelButton = document.getElementById("panel");
   const infoPanel = document.querySelector(".info-panel");
 
+  const logo = new Image();
+  logo.src = "./img/logo.png";
+  logo.onload = function () {
+    const logoImg = new Konva.Image({
+      x: 17900,
+      y: 7250,
+      image: logo,
+    });
+    logoImg.scale({ x: 5, y: 5 });
+    layer.add(logoImg);
+    layer.batchDraw();
+  };
+
   //Zooming variables
   const initialScale = 0.12;
   const minScale = 0.06894334949441323;
@@ -121,7 +134,7 @@ document.addEventListener("DOMContentLoaded", function () {
     y: 7250,
     fill: "rgba(0,0,0,0.5)",
     height: 2050,
-    width: 20500,
+    width: 17000,
     stroke: "darkblue",
     strokeWidth: 25,
     cornerRadius: 50,
