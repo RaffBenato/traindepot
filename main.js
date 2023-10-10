@@ -44,11 +44,11 @@ document.addEventListener("DOMContentLoaded", function () {
     "L15",
     "L16",
     "L17",
-    // "L18",
-    // "L19",
-    // "L20",
-    // "L21",
-    // "L22",
+    "L18",
+    "L19",
+    "L20",
+    "L21",
+    "L22",
     // "L23",
     // "L24",
     // "L25",
@@ -2706,17 +2706,122 @@ document.addEventListener("DOMContentLoaded", function () {
     let locoNameToFind = findInput.value.toUpperCase();
     let foundLoco = null;
 
+    //Uncouples all rakes
+    rakesInLayer = [];
+
     layer.children.forEach(function (loco) {
-      if (loco.getName() === locoNameToFind) {
-        foundLoco = loco;
-        return false;
+      if (loco.getName() === "rake") {
+        let rakeToAdd = {
+          rake: loco,
+          rakeX: loco.x(),
+          rakeY: loco.y(),
+          wagons: [],
+        };
+        rakesInLayer.push(rakeToAdd);
       }
     });
 
+    rakesInLayer.forEach(function (loco) {
+      loco.rake.children.forEach(function (wagon) {
+        if (wagon.getAttr("stroke", "darkblue")) {
+          return;
+        } else {
+          if (wagon.getName() === "rake") {
+            breakRakes(wagon, loco.wagons);
+          } else {
+            loco.wagons.push(wagon);
+          }
+        }
+      });
+    });
+    function breakRakes(rake, array) {
+      rake.children.forEach(function (wagon) {
+        if (wagon.getAttr("stroke", "darkblue")) {
+          return;
+        } else {
+          if (wagon.getName() === "rake") {
+            breakRakes(wagon, array);
+          } else {
+            array.push(wagon);
+          }
+        }
+      });
+    }
+
+    rakesInLayer.forEach(function (loco) {
+      uncoupleOffsetX = 0;
+      rakeX = loco.rake.x();
+      rakeY = loco.rake.y();
+      handleUncouple(loco.rake);
+    });
+
+    //finds wagon
+    let foundInRake = false;
+    let foundInRakeX;
+    let foundInRakeY;
+
+    rakesInLayer.forEach(function (loco) {
+      loco.wagons.forEach(function (wagon) {
+        if (wagon.getName() === locoNameToFind) {
+          foundInRake = true;
+          foundInRakeX = wagon.x();
+          foundInRakeY = wagon.y();
+        } else {
+          layer.children.forEach(function (loco) {
+            if (loco.getName() === locoNameToFind) {
+              foundLoco = loco;
+              return false;
+            }
+          });
+        }
+      });
+    });
+
+    //Couples all rakes
+    rakesInLayer.forEach(function (loco) {
+      const rake = new Konva.Group({
+        x: loco.rakeX,
+        y: loco.rakeY,
+        width: loco.wagons.length * 200,
+        draggable: true,
+        name: "rake",
+      });
+
+      handleSelection(rake);
+
+      let wagonPosition = 0;
+      loco.wagons.forEach(function (wagon) {
+        wagon.remove();
+        wagon.draggable(false);
+
+        rake.add(wagon);
+        wagon.moveToBottom();
+
+        wagon.position({ x: wagonPosition, y: 0 });
+        wagonPosition = wagonPosition + 200;
+      });
+
+      rake.on("click tap", function () {
+        handleSelection(rake);
+      });
+
+      layer.add(rake);
+      layer.batchDraw();
+    });
+
+    //Zooms in on the wagon
     if (foundLoco) {
       let newScale = 0.35;
-      let newX = -(foundLoco.x() * newScale - stage.width() / 2);
-      let newY = -(foundLoco.y() * newScale - stage.height() / 2);
+      let newX;
+      let newY;
+
+      if (foundInRake) {
+        newX = -(foundInRakeX * newScale - stage.width() / 2);
+        newY = -(foundInRakeY * newScale - stage.height() / 2);
+      } else {
+        newX = -(foundLoco.x() * newScale - stage.width() / 2);
+        newY = -(foundLoco.y() * newScale - stage.height() / 2);
+      }
 
       stage.scale({ x: newScale, y: newScale });
       stage.position({ x: newX, y: newY });
@@ -2900,9 +3005,7 @@ document.addEventListener("DOMContentLoaded", function () {
             const touchingLoco = findTouchingLoco(movedWagon);
 
             if (touchingLoco) {
-              let newWidth;
-
-              newWidth = touchingLoco.width() + movedWagon.width();
+              let newWidth = touchingLoco.width() + movedWagon.width();
 
               const rake = new Konva.Group({
                 x: touchingLoco.x(),
