@@ -38,80 +38,80 @@ document.addEventListener("DOMContentLoaded", function () {
   let uncoupleOffsetX;
   let rakeX;
   let rakeY;
+  let rakesInLayer = [];
 
   locos = [
     "L15",
     "L16",
     "L17",
-    "L18",
-    "L19",
-    "L20",
-    "L21",
-    "L22",
-    "L23",
-    "L24",
-    "L25",
-    "L26",
-    "L27",
-    "L28",
-    "L29",
-    "L30",
-    "L31",
-    "L32",
-    "L44",
-    "L45",
-    "L46",
-    "L47",
-    "L48",
-    "L49",
-    "L50",
-    "L51",
-    "L52",
-    "L53",
-    "L54",
+    // "L18",
+    // "L19",
+    // "L20",
+    // "L21",
+    // "L22",
+    // "L23",
+    // "L24",
+    // "L25",
+    // "L26",
+    // "L27",
+    // "L28",
+    // "L29",
+    // "L30",
+    // "L31",
+    // "L32",
+    // "L44",
+    // "L45",
+    // "L46",
+    // "L47",
+    // "L48",
+    // "L49",
+    // "L50",
+    // "L51",
+    // "L52",
+    // "L53",
+    // "L54",
   ];
 
-  cws = ["1053", "1054", "1055"];
-
-  gps = [
-    "901",
-    // "902",
-    // "903",
-    // "904",
-    // "905",
-    // "906",
-    // "907",
-    // "908",
-    // "909",
-    // "910",
-    // "911",
-    // "913",
-    // "914",
-    // "915",
-    // "916",
-    // "917",
-    // "918",
-    // "919",
-    // "920",
-    // "921",
-    // "922",
-    // "924",
-    // "925",
-    // "926",
-    // "927",
-    // "928",
-    // "929",
-    // "930",
-    // "931",
-    // "933",
-    // "934",
-    // "935",
-    // "936",
-    // "937",
-    // "938",
-    // "939",
-    // "940",
-  ];
+  cws = //["1053", "1054", "1055"];
+    gps = [
+      // "901",
+      // "902",
+      // "903",
+      // "904",
+      // "905",
+      // "906",
+      // "907",
+      // "908",
+      // "909",
+      // "910",
+      // "911",
+      // "913",
+      // "914",
+      // "915",
+      // "916",
+      // "917",
+      // "918",
+      // "919",
+      // "920",
+      // "921",
+      // "922",
+      // "924",
+      // "925",
+      // "926",
+      // "927",
+      // "928",
+      // "929",
+      // "930",
+      // "931",
+      // "933",
+      // "934",
+      // "935",
+      // "936",
+      // "937",
+      // "938",
+      // "939",
+      // "940",
+    ];
 
   //Roads
   const roadColour = "rgb(180,180,180)";
@@ -2640,19 +2640,49 @@ document.addEventListener("DOMContentLoaded", function () {
   layer.batchDraw();
 
   zoomInButton.addEventListener("click", () => {
-    const newScale = stage.scaleX() * 1.1;
+    const oldScale = stage.scaleX();
+    const newScale = oldScale * 1.1;
+
     if (newScale <= maxScale) {
-      stage.scaleX(newScale);
-      stage.scaleY(newScale);
+      // Get the current center position of the stage
+      const oldCenterX = stage.width() / 2;
+      const oldCenterY = stage.height() / 2;
+
+      // Calculate the new center position after scaling
+      const newCenterX = ((oldCenterX - stage.x()) / oldScale) * newScale;
+      const newCenterY = ((oldCenterY - stage.y()) / oldScale) * newScale;
+
+      // Update the scale and position
+      stage.scale({ x: newScale, y: newScale });
+      stage.position({
+        x: oldCenterX - newCenterX,
+        y: oldCenterY - newCenterY,
+      });
+
       layer.batchDraw();
     }
   });
 
   zoomOutButton.addEventListener("click", () => {
-    const newScale = stage.scaleX() / 1.1;
+    const oldScale = stage.scaleX();
+    const newScale = oldScale / 1.1;
+
     if (newScale >= minScale) {
-      stage.scaleX(newScale);
-      stage.scaleY(newScale);
+      // Get the current center position of the stage
+      const oldCenterX = stage.width() / 2;
+      const oldCenterY = stage.height() / 2;
+
+      // Calculate the new center position after scaling
+      const newCenterX = ((oldCenterX - stage.x()) / oldScale) * newScale;
+      const newCenterY = ((oldCenterY - stage.y()) / oldScale) * newScale;
+
+      // Update the scale and position
+      stage.scale({ x: newScale, y: newScale });
+      stage.position({
+        x: oldCenterX - newCenterX,
+        y: oldCenterY - newCenterY,
+      });
+
       layer.batchDraw();
     }
   });
@@ -2682,6 +2712,7 @@ document.addEventListener("DOMContentLoaded", function () {
         return false;
       }
     });
+
     if (foundLoco) {
       let newScale = 0.35;
       let newX = -(foundLoco.x() * newScale - stage.width() / 2);
@@ -2937,51 +2968,51 @@ document.addEventListener("DOMContentLoaded", function () {
 
   //Uncouple
   uncoupleButton.addEventListener("click", () => {
-    if (selectedWagon.getName() === "rake") {
-      uncoupleOffsetX = 0;
-      rakeX = selectedWagon.x();
-      rakeY = selectedWagon.y();
-      handleUncouple(selectedWagon);
+    if (selectedWagon) {
+      if (selectedWagon.getName() === "rake") {
+        uncoupleOffsetX = 0;
+        rakeX = selectedWagon.x();
+        rakeY = selectedWagon.y();
+        handleUncouple(selectedWagon);
+      }
     }
   });
 
   function handleUncouple(wagons) {
-    if (selectedWagon) {
-      //Deselects
-      layer.children.forEach(function (child) {
-        const borderRect = child.find(".borderRect");
+    //Deselects
+    layer.children.forEach(function (child) {
+      const borderRect = child.find(".borderRect");
 
-        if (borderRect.length > 0) {
-          borderRect[0].destroy();
-          layer.batchDraw();
-        }
-      });
+      if (borderRect.length > 0) {
+        borderRect[0].destroy();
+        layer.batchDraw();
+      }
+    });
 
-      let rakesToUncouple = [];
+    let rakesToUncouple = [];
 
-      wagons.children.forEach(function (wagon) {
-        rakesToUncouple.push(wagon);
-      });
+    wagons.children.forEach(function (wagon) {
+      rakesToUncouple.push(wagon);
+    });
 
-      rakesToUncouple.forEach(function (wagon) {
-        if (wagon.getName() === "rake") {
-          handleUncouple(wagon);
-          uncoupleOffsetX -= 200;
-        }
-        wagon.position({ x: rakeX + uncoupleOffsetX, y: rakeY });
-        wagon.draggable(true);
-        layer.add(wagon);
-        uncoupleOffsetX += 200;
-      });
+    rakesToUncouple.forEach(function (wagon) {
+      if (wagon.getName() === "rake") {
+        handleUncouple(wagon);
+        uncoupleOffsetX -= 200;
+      }
+      wagon.position({ x: rakeX + uncoupleOffsetX, y: rakeY });
+      wagon.draggable(true);
+      layer.add(wagon);
+      uncoupleOffsetX += 200;
+    });
 
-      wagons.destroy();
-      layer.children.forEach(function (wagon) {
-        if (wagon.children.length === 0) {
-          wagon.destroy();
-        }
-      });
-      layer.batchDraw();
-    }
+    wagons.destroy();
+    layer.children.forEach(function (wagon) {
+      if (wagon.children.length === 0) {
+        wagon.destroy();
+      }
+    });
+    layer.batchDraw();
   }
 
   //Selection
@@ -3008,6 +3039,7 @@ document.addEventListener("DOMContentLoaded", function () {
       });
 
       child.add(borderRect);
+      child.moveToTop();
       selectedWagon = child;
     } else {
       selectedWagon = null;
