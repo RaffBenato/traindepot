@@ -41,77 +41,116 @@ document.addEventListener("DOMContentLoaded", function () {
   let rakesInLayer = [];
 
   locos = [
-    "L15",
-    "L16",
-    "L17",
-    "L18",
-    "L19",
-    "L20",
-    "L21",
-    "L22",
-    // "L23",
-    // "L24",
-    // "L25",
-    // "L26",
-    // "L27",
-    // "L28",
-    // "L29",
-    // "L30",
-    // "L31",
-    // "L32",
-    // "L44",
-    // "L45",
-    // "L46",
-    // "L47",
-    // "L48",
-    // "L49",
-    // "L50",
-    // "L51",
-    // "L52",
-    // "L53",
-    // "L54",
+    {
+      name: "L15",
+      startingX: "",
+      startingY: "",
+      info: {
+        atp: "YES",
+        tbtc: "YES",
+        cbtc: "YES",
+        inService: "YES",
+        type: "Battery Loco",
+      },
+    },
+    {
+      name: "L16",
+      startingX: "",
+      startingY: "",
+      info: {
+        atp: "NO",
+        tbtc: "NO",
+        cbtc: "NO",
+        inService: "NO",
+        type: "Battery Loco",
+      },
+    },
+    {
+      name: "L17",
+      startingX: "",
+      startingY: "",
+      info: {
+        atp: "NO",
+        tbtc: "NO",
+        cbtc: "NO",
+        inService: "NO",
+        type: "Battery Loco",
+      },
+    },
   ];
 
-  cws = //["1053", "1054", "1055"];
-    gps = [
-      // "901",
-      // "902",
-      // "903",
-      // "904",
-      // "905",
-      // "906",
-      // "907",
-      // "908",
-      // "909",
-      // "910",
-      // "911",
-      // "913",
-      // "914",
-      // "915",
-      // "916",
-      // "917",
-      // "918",
-      // "919",
-      // "920",
-      // "921",
-      // "922",
-      // "924",
-      // "925",
-      // "926",
-      // "927",
-      // "928",
-      // "929",
-      // "930",
-      // "931",
-      // "933",
-      // "934",
-      // "935",
-      // "936",
-      // "937",
-      // "938",
-      // "939",
-      // "940",
-    ];
+  // locos = [
+  //   "L15",
+  //   "L16",
+  //   "L17",
+  //   "L18",
+  //   "L19",
+  //   "L20",
+  //   "L21",
+  //   "L22",
+  //   // "L23",
+  //   // "L24",
+  //   // "L25",
+  //   // "L26",
+  //   // "L27",
+  //   // "L28",
+  //   // "L29",
+  //   // "L30",
+  //   // "L31",
+  //   // "L32",
+  //   // "L44",
+  //   // "L45",
+  //   // "L46",
+  //   // "L47",
+  //   // "L48",
+  //   // "L49",
+  //   // "L50",
+  //   // "L51",
+  //   // "L52",
+  //   // "L53",
+  //   // "L54",
+  // ];
+
+  cws = ["1053", "1054", "1055"];
+  gps = [
+    // "901",
+    // "902",
+    // "903",
+    // "904",
+    // "905",
+    // "906",
+    // "907",
+    // "908",
+    // "909",
+    // "910",
+    // "911",
+    // "913",
+    // "914",
+    // "915",
+    // "916",
+    // "917",
+    // "918",
+    // "919",
+    // "920",
+    // "921",
+    // "922",
+    // "924",
+    // "925",
+    // "926",
+    // "927",
+    // "928",
+    // "929",
+    // "930",
+    // "931",
+    // "933",
+    // "934",
+    // "935",
+    // "936",
+    // "937",
+    // "938",
+    // "939",
+    // "940",
+  ];
 
   //Roads
   const roadColour = "rgb(180,180,180)";
@@ -2603,8 +2642,9 @@ document.addEventListener("DOMContentLoaded", function () {
     return { gp };
   }
 
+  //CREATES ALL WAGONS
   for (let i = 1; i <= locos.length; i++) {
-    const locoName = locos[i - 1];
+    const locoName = locos[i - 1].name;
     const { loco } = createLocomotive(i * 250 + 500, 7550, locoName);
 
     loco.on("click tap", function () {
@@ -2633,7 +2673,16 @@ document.addEventListener("DOMContentLoaded", function () {
 
     layer.add(gp);
   }
+
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+  zoomWholeButton.addEventListener("click", () => {
+    stage.x(0), stage.y(0);
+    stage.scaleX(minScale);
+    stage.scaleY(minScale);
+    layer.batchDraw();
+  });
+
   //ZOOM
   stage.scaleX(initialScale);
   stage.scaleY(initialScale);
@@ -2687,160 +2736,30 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   });
 
-  zoomWholeButton.addEventListener("click", () => {
-    stage.x(0), stage.y(0);
-    stage.scaleX(minScale);
-    stage.scaleY(minScale);
-    layer.batchDraw();
-  });
-
-  zoomFindButton.addEventListener("click", () => {
-    findInput.value = "";
-    findModal.classList.toggle("hidden");
-    findInput.focus();
-  });
-
-  findButton.addEventListener("click", () => {
-    findModal.classList.add("hidden");
-
-    let locoNameToFind = findInput.value.toUpperCase();
-    let foundLoco = null;
-
-    //Uncouples all rakes
-    rakesInLayer = [];
-
-    layer.children.forEach(function (loco) {
-      if (loco.getName() === "rake") {
-        let rakeToAdd = {
-          rake: loco,
-          rakeX: loco.x(),
-          rakeY: loco.y(),
-          wagons: [],
-        };
-        rakesInLayer.push(rakeToAdd);
-      }
-    });
-
-    rakesInLayer.forEach(function (loco) {
-      loco.rake.children.forEach(function (wagon) {
-        if (wagon.getAttr("stroke", "darkblue")) {
-          return;
-        } else {
-          if (wagon.getName() === "rake") {
-            breakRakes(wagon, loco.wagons);
-          } else {
-            loco.wagons.push(wagon);
-          }
-        }
-      });
-    });
-    function breakRakes(rake, array) {
-      rake.children.forEach(function (wagon) {
-        if (wagon.getAttr("stroke", "darkblue")) {
-          return;
-        } else {
-          if (wagon.getName() === "rake") {
-            breakRakes(wagon, array);
-          } else {
-            array.push(wagon);
-          }
-        }
-      });
-    }
-
-    rakesInLayer.forEach(function (loco) {
-      uncoupleOffsetX = 0;
-      rakeX = loco.rake.x();
-      rakeY = loco.rake.y();
-      handleUncouple(loco.rake);
-    });
-
-    //finds wagon
-    let foundInRake = false;
-    let foundInRakeX;
-    let foundInRakeY;
-
-    rakesInLayer.forEach(function (loco) {
-      loco.wagons.forEach(function (wagon) {
-        if (wagon.getName() === locoNameToFind) {
-          foundInRake = true;
-          foundInRakeX = wagon.x();
-          foundInRakeY = wagon.y();
-        } else {
-          layer.children.forEach(function (loco) {
-            if (loco.getName() === locoNameToFind) {
-              foundLoco = loco;
-              return false;
-            }
-          });
-        }
-      });
-    });
-
-    //Couples all rakes
-    rakesInLayer.forEach(function (loco) {
-      const rake = new Konva.Group({
-        x: loco.rakeX,
-        y: loco.rakeY,
-        width: loco.wagons.length * 200,
-        draggable: true,
-        name: "rake",
-      });
-
-      handleSelection(rake);
-
-      let wagonPosition = 0;
-      loco.wagons.forEach(function (wagon) {
-        wagon.remove();
-        wagon.draggable(false);
-
-        rake.add(wagon);
-        wagon.moveToBottom();
-
-        wagon.position({ x: wagonPosition, y: 0 });
-        wagonPosition = wagonPosition + 200;
-      });
-
-      rake.on("click tap", function () {
-        handleSelection(rake);
-      });
-
-      layer.add(rake);
-      layer.batchDraw();
-    });
-
-    //Zooms in on the wagon
-    if (foundLoco) {
-      let newScale = 0.35;
-      let newX;
-      let newY;
-
-      if (foundInRake) {
-        newX = -(foundInRakeX * newScale - stage.width() / 2);
-        newY = -(foundInRakeY * newScale - stage.height() / 2);
-      } else {
-        newX = -(foundLoco.x() * newScale - stage.width() / 2);
-        newY = -(foundLoco.y() * newScale - stage.height() / 2);
-      }
-
-      stage.scale({ x: newScale, y: newScale });
-      stage.position({ x: newX, y: newY });
-      layer.batchDraw();
-    }
-  });
-
   stage.container().addEventListener("wheel", (e) => {
     e.preventDefault();
+
+    const oldScale = stage.scaleX();
     const deltaY = e.deltaY;
-    const scaleFactor = deltaY > 0 ? 1.1 : 1 / 1.1;
+    const newScale = deltaY > 0 ? oldScale / 1.1 : oldScale * 1.1;
 
-    const newScaleX = stage.scaleX() * scaleFactor;
-    const newScaleY = stage.scaleY() * scaleFactor;
+    if (newScale >= minScale) {
+      // Get the current center position of the stage
+      const oldCenterX = stage.width() / 2;
+      const oldCenterY = stage.height() / 2;
 
-    if (newScaleX >= minScale && newScaleX <= maxScale) {
-      stage.scaleX(newScaleX);
-      stage.scaleY(newScaleY);
-      stage.batchDraw();
+      // Calculate the new center position after scaling
+      const newCenterX = ((oldCenterX - stage.x()) / oldScale) * newScale;
+      const newCenterY = ((oldCenterY - stage.y()) / oldScale) * newScale;
+
+      // Update the scale and position
+      stage.scale({ x: newScale, y: newScale });
+      stage.position({
+        x: oldCenterX - newCenterX,
+        y: oldCenterY - newCenterY,
+      });
+
+      layer.batchDraw();
     }
   });
 
@@ -3013,6 +2932,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 width: newWidth,
                 draggable: true,
                 name: "rake",
+                wagons: [],
               });
 
               handleSelection(rake);
@@ -3025,6 +2945,26 @@ document.addEventListener("DOMContentLoaded", function () {
               rake.add(movedWagon, touchingLoco);
               movedWagon.moveToBottom();
               touchingLoco.moveToBottom();
+
+              //Adding the wagon names to the wagon property in the object
+
+              if (
+                touchingLoco.getAttr("wagons") &&
+                touchingLoco.getAttr("wagons").length > 0
+              ) {
+                rake.getAttr("wagons").push(...touchingLoco.getAttr("wagons"));
+              } else {
+                rake.getAttr("wagons").push(touchingLoco.getName());
+              }
+
+              if (
+                movedWagon.getAttr("wagons") &&
+                movedWagon.getAttr("wagons").length > 0
+              ) {
+                rake.getAttr("wagons").push(...movedWagon.getAttr("wagons"));
+              } else {
+                rake.getAttr("wagons").push(movedWagon.getName());
+              }
 
               touchingLoco.position({ x: 0, y: 0 });
               movedWagon.position({
@@ -3077,6 +3017,7 @@ document.addEventListener("DOMContentLoaded", function () {
         rakeX = selectedWagon.x();
         rakeY = selectedWagon.y();
         handleUncouple(selectedWagon);
+        infoPanel.innerHTML = ``;
       }
     }
   });
@@ -3149,6 +3090,35 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     layer.batchDraw();
+
+    infoPanel.innerHTML = ``;
+    if (selectedWagon != undefined) {
+      let htmlCode;
+
+      if (selectedWagon.getName() === "rake") {
+        htmlCode = `<h3>Rake</h3>`;
+        const rakeToDisplayInfo = selectedWagon.getAttr("wagons");
+        rakeToDisplayInfo.forEach((wagon) => {
+          htmlCode += `<p>${wagon}</p>`;
+        });
+      } else {
+        const locoInfo = locos.find(
+          (loco) => loco.name === selectedWagon.getName()
+        );
+        if (locoInfo) {
+          htmlCode = `<h3>${locoInfo.name}</h3>`;
+
+          for (const key in locoInfo.info) {
+            if (locoInfo.info.hasOwnProperty(key)) {
+              const value = locoInfo.info[key];
+              htmlCode += `<p>${key}: ${value}</p>`;
+            }
+          }
+        }
+      }
+
+      infoPanel.insertAdjacentHTML(`beforeend`, htmlCode);
+    }
   }
 
   panelButton.addEventListener("click", () => {
