@@ -1,0 +1,135 @@
+* {
+  padding: 0;
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: #006fe6;
+  color: #03071c;
+}
+
+a {
+  text-decoration: none;
+  color: #03071c;
+}
+
+.container {
+  width: 700px;
+  min-height: 100vh;
+  margin: auto;
+  padding-bottom: 20px;
+  background-color: #ccc;
+}
+
+.header {
+  height: 60px;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: bold;
+  font-size: 1.5rem;
+  border-bottom: 2px solid #03071c;
+}
+
+.nav {
+  margin-top: 30px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 30px;
+}
+
+.btn-nav {
+  background-color: #03071c;
+  color: #ccc;
+  width: 300px;
+  height: 40px;
+  padding: 10px;
+  text-align: center;
+  transition: all 0.2s linear;
+}
+
+.btn-nav:hover {
+  background-color: #006fe6;
+  color: #03071c;
+}
+
+.form-report {
+  margin-top: 30px;
+  padding: 30px;
+  color: #03071c;
+}
+
+.form-line {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #03071c;
+  margin-bottom: 20px;
+}
+
+.form-input-sm {
+  height: 35px;
+  width: 40%;
+  font-size: 1.3rem;
+  padding: 3px;
+}
+
+.form-textarea {
+  width: 80%;
+  font-size: 1.3rem;
+  padding: 3px;
+  resize: none;
+}
+
+.btns {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fault-history {
+  width: 80%;
+  height: 180px;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+.history-line {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid #03071c;
+  margin-bottom: 5px;
+}
+
+.history-number {
+  width: 20%;
+  text-align: center;
+}
+
+.history-date {
+  width: 20%;
+  text-align: center;
+}
+
+.history-description {
+  width: 60%;
+  text-align: center;
+}
+
+@media only screen and (max-width: 700px) {
+  .container {
+    width: 100%;
+  }
+}
