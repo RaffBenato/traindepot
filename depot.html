@@ -18,7 +18,10 @@
     <title>Train Depot</title>
   </head>
   <body>
-    <div class="zoom-btns">
+    <div id="zoom-btns" class="zoom-btns">
+      <button id="btn-white-board" class="btn-zoom">
+        <i class="fa-solid fa-table-columns"></i>
+      </button>
       <button id="zoom-in" class="btn-zoom">
         <i class="fa-solid fa-magnifying-glass-plus"></i>
       </button>
@@ -59,5 +62,59 @@
     <div class="info-panel hidden"></div>
 
     <div id="konva-holder"></div>
+
+    <div id="white-board" class="white-board">
+      <div class="white-board-buttons">
+        <button id="btn-white-board-minimize" class="btn-white-board hidden">
+          <i class="fa-solid fa-compress"></i>
+        </button>
+
+        <button id="btn-white-board-maximize" class="btn-white-board">
+          <i class="fa-solid fa-expand"></i>
+        </button>
+
+        <button id="btn-white-board-close" class="btn-white-board">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="board" class="board">
+        <div class="board-row-date">
+          <div class="board-train-btns">
+            <button id="btn-white-board-add" class="btn-new-train">
+              ADD TRAIN
+            </button>
+
+            <button id="btn-white-board-add" class="btn-new-train">SAVE</button>
+          </div>
+
+          <div class="board-date">
+            <label for="board-date">Date:</label>
+            <input
+              type="date"
+              name="board-date"
+              id="board-date"
+              class="board-input-date"
+            />
+          </div>
+        </div>
+
+        <div class="board-row-top">
+          <div class="board-column1">Train</div>
+          <div class="board-column2">Time</div>
+          <div class="board-column3">Location</div>
+          <div class="board-column4">Road</div>
+          <div class="board-column5">Formation</div>
+          <div class="board-column6">Line</div>
+          <div class="board-column7">System</div>
+          <div class="board-column8 hidden">Drivers</div>
+          <div class="board-column9 hidden">Assists</div>
+        </div>
+      </div>
+
+      <div class="board-notice">
+        <textarea class="board-input-area" rows="4">INFO:</textarea>
+      </div>
+    </div>
   </body>
 </html>

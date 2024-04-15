@@ -1,4 +1,5 @@
 document.addEventListener("DOMContentLoaded", function () {
+  const zoomBtnsEl = document.getElementById("zoom-btns");
   const zoomInButton = document.getElementById("zoom-in");
   const zoomOutButton = document.getElementById("zoom-out");
   const zoomWholeButton = document.getElementById("zoom-whole");
@@ -12,10 +13,34 @@ document.addEventListener("DOMContentLoaded", function () {
   const panelButton = document.getElementById("panel");
   const infoPanel = document.querySelector(".info-panel");
 
+  const btnWhiteBoardEl = document.getElementById("btn-white-board");
+  const whiteBoardEl = document.getElementById("white-board");
+  const boardEl = document.getElementById("board");
+  const btnWhiteBoardCloseEl = document.getElementById("btn-white-board-close");
+  const btnWhiteBoardMinimizeEl = document.getElementById(
+    "btn-white-board-minimize"
+  );
+  const btnWhiteBoardMaximizeEl = document.getElementById(
+    "btn-white-board-maximize"
+  );
+  const btnsWhiteBoardDeleteEl = document.querySelectorAll(".delete-icon");
+  const btnWhiteBoardAddeEl = document.getElementById("btn-white-board-add");
+  const boardColumns1 = document.getElementsByClassName("board-column1");
+  const boardColumns2 = document.getElementsByClassName("board-column2");
+  const boardColumns3 = document.getElementsByClassName("board-column3");
+  const boardColumns4 = document.getElementsByClassName("board-column4");
+  const boardColumns5 = document.getElementsByClassName("board-column5");
+  const boardColumns6 = document.getElementsByClassName("board-column6");
+  const boardColumns7 = document.getElementsByClassName("board-column7");
+  const boardColumns8 = document.getElementsByClassName("board-column8");
+  const boardColumns9 = document.getElementsByClassName("board-column9");
+
   const logo = new Image();
   logo.src = "./img/logo.png";
   logo.onload = function () {
     const logoImg = new Konva.Image({
+      width: 500,
+      height: 400,
       x: 17900,
       y: 7250,
       image: logo,
@@ -3123,5 +3148,101 @@ document.addEventListener("DOMContentLoaded", function () {
 
   panelButton.addEventListener("click", () => {
     infoPanel.classList.toggle("hidden");
+  });
+
+  btnWhiteBoardEl.addEventListener("click", () => {
+    whiteBoardEl.classList.toggle("hidden");
+  });
+
+  btnWhiteBoardCloseEl.addEventListener("click", () => {
+    whiteBoardEl.classList.add("hidden");
+    zoomBtnsEl.classList.remove("hidden");
+  });
+
+  btnWhiteBoardMinimizeEl.addEventListener("click", () => {
+    whiteBoardEl.classList.remove("full");
+    btnWhiteBoardMinimizeEl.classList.add("hidden");
+    btnWhiteBoardMaximizeEl.classList.remove("hidden");
+    zoomBtnsEl.classList.remove("hidden");
+
+    addClassToElements(boardColumns1, "remove", "full");
+    addClassToElements(boardColumns2, "remove", "full");
+    addClassToElements(boardColumns3, "remove", "full");
+    addClassToElements(boardColumns4, "remove", "full");
+    addClassToElements(boardColumns5, "remove", "full");
+    addClassToElements(boardColumns6, "remove", "full");
+    addClassToElements(boardColumns7, "remove", "full");
+    addClassToElements(boardColumns8, "add", "hidden");
+    addClassToElements(boardColumns9, "add", "hidden");
+  });
+
+  btnWhiteBoardMaximizeEl.addEventListener("click", () => {
+    whiteBoardEl.classList.add("full");
+    btnWhiteBoardMinimizeEl.classList.remove("hidden");
+    btnWhiteBoardMaximizeEl.classList.add("hidden");
+    zoomBtnsEl.classList.add("hidden");
+
+    addClassToElements(boardColumns1, "add", "full");
+    addClassToElements(boardColumns2, "add", "full");
+    addClassToElements(boardColumns3, "add", "full");
+    addClassToElements(boardColumns4, "add", "full");
+    addClassToElements(boardColumns5, "add", "full");
+    addClassToElements(boardColumns6, "add", "full");
+    addClassToElements(boardColumns7, "add", "full");
+    addClassToElements(boardColumns8, "remove", "hidden");
+    addClassToElements(boardColumns9, "remove", "hidden");
+  });
+
+  function addClassToElements(elementsArray, action, className) {
+    const els = Array.from(elementsArray);
+    els.forEach((element) => {
+      if (action === "add") element.classList.add(className);
+      else element.classList.remove(className);
+    });
+  }
+
+  btnWhiteBoardAddeEl.addEventListener("click", () => {
+    const htmlCode = `<div class="board-row">
+    <div class="board-column1">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column2">
+      <input class="board-input-time" type="time" />
+    </div>
+    <div class="board-column3">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column4">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column5">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column6">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column7">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column8 hidden">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-column9 hidden">
+      <input class="board-input-text" type="text" />
+    </div>
+    <div class="board-columnX">
+     <i class="fa-solid fa-circle-minus delete-icon"></i>
+    </div>
+  </div>`;
+    boardEl.insertAdjacentHTML(`beforeend`, htmlCode);
+  });
+
+  document.addEventListener("click", function (event) {
+    const target = event.target;
+
+    if (target.classList.contains("delete-icon")) {
+      const parentRow = target.closest(".board-row");
+      parentRow.remove();
+    }
   });
 });
